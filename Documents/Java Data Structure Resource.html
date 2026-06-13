@@ -1,0 +1,3065 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>Java DSA Handbook for C++ Programmers</title>  
+<link rel="preconnect" href="https://fonts.googleapis.com">  
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">  
+<style>  
+  :root {  
+    --bg-deep:      #0d1117;  
+    --bg-panel:     #161b22;  
+    --bg-card:      #1c2128;  
+    --bg-code:      #161b22;  
+    --bg-inset:     #0d1117;  
+    --border:       #30363d;  
+    --border-light: #21262d;  --text-primary:   #e6edf3;  
+--text-secondary: #8b949e;  
+--text-muted:     #484f58;  
+--text-dim:       #3d444d;  
+
+/* Syntax palette */  
+--syn-keyword:  #ff7b72;   /* red   — int, class, return  */  
+--syn-type:     #ffa657;   /* orange — String, ArrayList   */  
+--syn-string:   #a5d6ff;   /* light blue — "literal"      */  
+--syn-number:   #79c0ff;   /* blue   — 0, 1, 100          */  
+--syn-comment:  #8b949e;   /* grey   — // comments        */  
+--syn-method:   #d2a8ff;   /* purple — .sort(), .get()    */  
+--syn-class:    #ffa657;   /* orange — class names        */  
+--syn-param:    #e6edf3;   /* white  — param names        */  
+--syn-operator: #ff7b72;   /* red    — = < > !            */  
+--syn-annot:    #3fb950;   /* green  — @Override          */  
+
+/* Accent */  
+--accent:       #58a6ff;  
+--accent-dim:   #1f6feb;  
+--accent-glow:  rgba(88,166,255,.15);  
+
+/* Complexity badges */  
+--badge-o1:     #238636;  
+--badge-olog:   #1f6feb;  
+--badge-on:     #9e6a03;  
+--badge-on2:    #b62324;  
+
+--radius: 6px;  
+--radius-lg: 10px;
+
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+background: var(--bg-deep);
+color: var(--text-primary);
+font-family: 'Inter', system-ui, sans-serif;
+font-size: 14px;
+line-height: 1.7;
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+/* ── LAYOUT ─────────────────────────────────────── */
+.shell {
+display: flex;
+min-height: 100vh;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────── */
+.sidebar {
+width: 260px;
+flex-shrink: 0;
+background: var(--bg-panel);
+border-right: 1px solid var(--border);
+position: sticky;
+top: 0;
+height: 100vh;
+overflow-y: auto;
+padding: 0 0 40px 0;
+scrollbar-width: thin;
+scrollbar-color: var(--border) transparent;
+}
+
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.sidebar-logo {
+padding: 20px 18px 16px;
+border-bottom: 1px solid var(--border);
+margin-bottom: 10px;
+}
+
+.sidebar-logo .logo-tag {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11px;
+color: var(--syn-comment);
+display: block;
+margin-bottom: 4px;
+}
+
+.sidebar-logo h1 {
+font-family: 'JetBrains Mono', monospace;
+font-size: 13px;
+font-weight: 600;
+color: var(--accent);
+line-height: 1.4;
+}
+
+.sidebar-logo .subtitle {
+font-size: 11px;
+color: var(--text-muted);
+margin-top: 4px;
+}
+
+.sidebar-section-label {
+font-family: 'JetBrains Mono', monospace;
+font-size: 9px;
+font-weight: 700;
+letter-spacing: .12em;
+text-transform: uppercase;
+color: var(--text-dim);
+padding: 14px 18px 5px;
+}
+
+.sidebar-link {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 5px 18px;
+text-decoration: none;
+color: var(--text-secondary);
+font-size: 12.5px;
+border-left: 2px solid transparent;
+
+line-height: 1.4;
+}
+
+.sidebar-link:hover {
+color: var(--text-primary);
+background: rgba(88,166,255,.06);
+border-left-color: var(--accent-dim);
+}
+
+.sidebar-link.active {
+color: var(--accent);
+background: var(--accent-glow);
+border-left-color: var(--accent);
+font-weight: 500;
+}
+
+.sidebar-link .link-num {
+font-family: 'JetBrains Mono', monospace;
+font-size: 10px;
+color: var(--text-dim);
+min-width: 18px;
+}
+
+/* ── MAIN ─────────────────────────────────────── */
+.main {
+flex: 1;
+min-width: 0;
+padding: 40px 48px 80px;
+max-width: 100%;
+}
+
+/* ── HERO ─────────────────────────────────────── */
+.hero {
+margin-bottom: 56px;
+padding-bottom: 40px;
+border-bottom: 1px solid var(--border);
+}
+
+.hero-eyebrow {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11px;
+color: var(--syn-annot);
+letter-spacing: .08em;
+margin-bottom: 12px;
+}
+
+.hero h1 {
+font-family: 'JetBrains Mono', monospace;
+font-size: 28px;
+font-weight: 700;
+line-height: 1.25;
+color: var(--text-primary);
+margin-bottom: 14px;
+}
+
+.hero h1 span { color: var(--accent); }
+
+.hero-desc {
+color: var(--text-secondary);
+font-size: 14.5px;
+max-width: 580px;
+line-height: 1.7;
+}
+
+.hero-stats {
+display: flex;
+gap: 24px;
+margin-top: 24px;
+flex-wrap: wrap;
+}
+
+.hero-stat {
+display: flex;
+flex-direction: column;
+}
+
+.hero-stat .val {
+font-family: 'JetBrains Mono', monospace;
+font-size: 22px;
+font-weight: 700;
+color: var(--accent);
+}
+
+.hero-stat .lbl {
+font-size: 11px;
+color: var(--text-muted);
+letter-spacing: .04em;
+}
+
+/* ── SECTION HEADER ─────────────────────────── */
+.section-header {
+display: flex;
+align-items: center;
+gap: 12px;
+margin: 52px 0 28px;
+padding-bottom: 12px;
+border-bottom: 1px solid var(--border);
+}
+
+.section-header:first-of-type { margin-top: 0; }
+
+.section-num {
+font-family: 'JetBrains Mono', monospace;
+font-size: 10px;
+font-weight: 700;
+color: var(--text-dim);
+background: var(--bg-card);
+border: 1px solid var(--border);
+border-radius: 4px;
+padding: 2px 7px;
+letter-spacing: .06em;
+}
+
+.section-header h2 {
+font-family: 'JetBrains Mono', monospace;
+font-size: 13px;
+font-weight: 600;
+letter-spacing: .08em;
+text-transform: uppercase;
+color: var(--syn-comment);
+}
+
+/* ── TOPIC CARD ─────────────────────────────── */
+.topic-card {
+background: var(--bg-card);
+border: 1px solid var(--border);
+border-radius: var(--radius-lg);
+margin-bottom: 28px;
+overflow: hidden;
+}
+
+.topic-card-header {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 16px 20px;
+background: var(--bg-panel);
+border-bottom: 1px solid var(--border);
+cursor: pointer;
+user-select: none;
+}
+
+.topic-card-header:hover { background: #1d2230; }
+
+.topic-index {
+font-family: 'JetBrains Mono', monospace;
+font-size: 10px;
+color: var(--text-dim);
+min-width: 24px;
+}
+
+.topic-title {
+font-family: 'JetBrains Mono', monospace;
+font-size: 15px;
+font-weight: 600;
+color: var(--syn-class);
+flex: 1;
+}
+
+.topic-toggle {
+font-size: 11px;
+color: var(--text-muted);
+font-family: 'JetBrains Mono', monospace;
+
+}
+
+.topic-body {
+padding: 22px 24px;
+}
+
+/* ── SUBSECTION ─────────────────────────────── */
+.subsection {
+margin-bottom: 24px;
+}
+
+.subsection:last-child { margin-bottom: 0; }
+
+.subsection-label {
+font-family: 'JetBrains Mono', monospace;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: .12em;
+text-transform: uppercase;
+color: var(--syn-annot);
+margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.subsection-label::after {
+content: '';
+flex: 1;
+height: 1px;
+background: var(--border-light);
+}
+
+.subsection p {
+color: var(--text-secondary);
+font-size: 13.5px;
+line-height: 1.75;
+}
+
+/* ── ADVANTAGES ─────────────────────────────── */
+.adv-list {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+
+.adv-list li {
+display: flex;
+gap: 10px;
+font-size: 13.5px;
+color: var(--text-secondary);
+line-height: 1.6;
+}
+
+.adv-list li::before {
+content: '▸';
+color: var(--accent);
+font-size: 11px;
+margin-top: 3px;
+flex-shrink: 0;
+}
+
+/* ── CODE BLOCK ─────────────────────────────── */
+.code-wrap {
+background: var(--bg-inset);
+border: 1px solid var(--border);
+border-radius: var(--radius);
+overflow: hidden;
+margin: 2px 0;
+}
+
+.code-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 7px 14px;
+background: var(--bg-panel);
+border-bottom: 1px solid var(--border);
+}
+
+.code-header .lang-tag {
+font-family: 'JetBrains Mono', monospace;
+font-size: 10px;
+color: var(--text-muted);
+letter-spacing: .06em;
+}
+
+.code-dots {
+display: flex;
+gap: 5px;
+}
+
+.code-dots span {
+width: 10px; height: 10px;
+border-radius: 50%;
+display: block;
+}
+
+.code-dots span:nth-child(1) { background: #ff5f57; }
+.code-dots span:nth-child(2) { background: #febc2e; }
+.code-dots span:nth-child(3) { background: #28c840; }
+
+pre {
+padding: 16px 18px;
+overflow-x: auto;
+scrollbar-width: thin;
+scrollbar-color: var(--border) transparent;
+}
+
+pre code {
+font-family: 'JetBrains Mono', monospace;
+font-size: 12.5px;
+line-height: 1.75;
+white-space: pre;
+display: block;
+}
+
+/* Syntax classes */
+.kw  { color: var(--syn-keyword); font-weight: 500; }
+.ty  { color: var(--syn-type); }
+.st  { color: var(--syn-string); }
+.nm  { color: var(--syn-number); }
+.cm  { color: var(--syn-comment); font-style: italic; }
+.mt  { color: var(--syn-method); }
+.cl  { color: var(--syn-class); }
+.an  { color: var(--syn-annot); }
+.op  { color: var(--syn-operator); }
+.pl  { color: var(--text-primary); }
+
+/* ── TABLE ──────────────────────────────────── */
+.ops-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 12.5px;
+margin-top: 4px;
+}
+
+.ops-table thead tr {
+background: var(--bg-inset);
+border-bottom: 1px solid var(--border);
+}
+
+.ops-table th {
+font-family: 'JetBrains Mono', monospace;
+font-size: 10px;
+font-weight: 600;
+letter-spacing: .08em;
+text-transform: uppercase;
+color: var(--text-muted);
+padding: 8px 12px;
+text-align: left;
+border: 1px solid var(--border);
+}
+
+.ops-table td {
+padding: 8px 12px;
+border: 1px solid var(--border-light);
+color: var(--text-secondary);
+vertical-align: top;
+}
+
+.ops-table tbody tr:nth-child(even) td {
+background: rgba(255,255,255,.015);
+}
+
+.ops-table tbody tr:hover td {
+background: var(--accent-glow);
+}
+
+.ops-table td:first-child {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11.5px;
+color: var(--text-primary);
+font-weight: 500;
+white-space: nowrap;
+}
+
+.ops-table td code {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11.5px;
+color: var(--syn-method);
+background: var(--bg-inset);
+border: 1px solid var(--border);
+border-radius: 3px;
+padding: 1px 5px;
+}
+
+/* Complexity badge */
+.cx {
+font-family: 'JetBrains Mono', monospace;
+font-size: 10.5px;
+font-weight: 600;
+padding: 2px 7px;
+border-radius: 4px;
+white-space: nowrap;
+display: inline-block;
+}
+
+.cx-o1   { background: rgba(35,134,54,.2);  color: #3fb950; border: 1px solid rgba(35,134,54,.4); }
+.cx-olog { background: rgba(31,111,235,.2); color: #79c0ff; border: 1px solid rgba(31,111,235,.4); }
+.cx-on   { background: rgba(158,106,3,.2);  color: #e3b341; border: 1px solid rgba(158,106,3,.4); }
+.cx-on2  { background: rgba(182,35,36,.2);  color: #ff7b72; border: 1px solid rgba(182,35,36,.4); }
+.cx-onm  { background: rgba(182,35,36,.2);  color: #ff7b72; border: 1px solid rgba(182,35,36,.4); }
+
+/* ── CPP TABLE ──────────────────────────────── */
+.cpp-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 12.5px;
+margin-top: 4px;
+}
+
+.cpp-table th, .cpp-table td {
+padding: 8px 12px;
+border: 1px solid var(--border);
+text-align: left;
+}
+
+.cpp-table th {
+background: var(--bg-inset);
+font-family: 'JetBrains Mono', monospace;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: .08em;
+text-transform: uppercase;
+color: var(--text-muted);
+}
+
+.cpp-table td:first-child {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11.5px;
+color: var(--syn-type);
+}
+
+.cpp-table td:nth-child(2) {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11.5px;
+color: var(--syn-method);
+}
+
+.cpp-table td:last-child {
+color: var(--text-secondary);
+font-size: 12px;
+}
+
+.cpp-table tbody tr:hover td { background: rgba(88,166,255,.04); }
+
+/* ── INTERVIEW TAGS ─────────────────────────── */
+.interview-list {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+margin-top: 2px;
+}
+
+.interview-tag {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11px;
+padding: 3px 9px;
+background: rgba(88,166,255,.1);
+border: 1px solid rgba(88,166,255,.25);
+border-radius: 4px;
+color: var(--accent);
+}
+
+/* ── PITFALLS ───────────────────────────────── */
+.pitfall-list {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.pitfall-list li {
+display: flex;
+gap: 10px;
+font-size: 13px;
+color: var(--text-secondary);
+line-height: 1.6;
+padding: 8px 12px;
+background: rgba(255,123,114,.05);
+border: 1px solid rgba(255,123,114,.15);
+border-left: 3px solid var(--syn-keyword);
+border-radius: var(--radius);
+}
+
+.pitfall-list li .pitfall-icon {
+color: var(--syn-keyword);
+font-size: 13px;
+flex-shrink: 0;
+margin-top: 1px;
+}
+
+/* ── PATTERN BLOCKS ─────────────────────────── */
+.pattern-section {
+margin-bottom: 36px;
+}
+
+.pattern-title {
+font-family: 'JetBrains Mono', monospace;
+font-size: 14px;
+font-weight: 700;
+color: var(--syn-class);
+margin-bottom: 12px;
+padding: 10px 16px;
+background: var(--bg-panel);
+border: 1px solid var(--border);
+border-radius: var(--radius) var(--radius) 0 0;
+border-bottom: none;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.pattern-title::before {
+content: '';
+display: block;
+width: 3px;
+height: 16px;
+background: var(--accent);
+border-radius: 2px;
+}
+
+.pattern-code {
+border-radius: 0 0 var(--radius) var(--radius);
+margin-top: 0;
+}
+
+/* ── CHEAT SHEET TABLE ──────────────────────── */
+.cheat-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 12px;
+}
+
+.cheat-table th {
+background: var(--bg-inset);
+padding: 8px 12px;
+text-align: left;
+font-family: 'JetBrains Mono', monospace;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: .08em;
+text-transform: uppercase;
+color: var(--text-muted);
+border: 1px solid var(--border);
+}
+
+.cheat-table td {
+padding: 8px 12px;
+border: 1px solid var(--border-light);
+vertical-align: top;
+color: var(--text-secondary);
+}
+
+.cheat-table tbody tr:nth-child(even) td { background: rgba(255,255,255,.015); }
+.cheat-table tbody tr:hover td { background: var(--accent-glow); }
+
+.cheat-table td:first-child {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11.5px;
+color: var(--syn-type);
+white-space: nowrap;
+}
+
+.cheat-table td:nth-child(2) {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11.5px;
+color: var(--syn-method);
+white-space: nowrap;
+}
+
+/* ── QUICK REF TABLE ────────────────────────── */
+.qref-group { margin-bottom: 32px; }
+
+.qref-group-title {
+font-family: 'JetBrains Mono', monospace;
+font-size: 12px;
+font-weight: 700;
+color: var(--syn-class);
+padding: 8px 14px;
+background: var(--bg-panel);
+border: 1px solid var(--border);
+border-bottom: none;
+border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.qref-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 12px;
+border: 1px solid var(--border);
+border-radius: 0 0 var(--radius) var(--radius);
+overflow: hidden;
+}
+
+.qref-table th {
+background: var(--bg-inset);
+padding: 6px 12px;
+text-align: left;
+font-family: 'JetBrains Mono', monospace;
+font-size: 9.5px;
+font-weight: 700;
+letter-spacing: .08em;
+text-transform: uppercase;
+color: var(--text-muted);
+border-bottom: 1px solid var(--border);
+}
+
+.qref-table td {
+padding: 6px 12px;
+border-bottom: 1px solid var(--border-light);
+color: var(--text-secondary);
+font-size: 11.5px;
+vertical-align: middle;
+}
+
+.qref-table tbody tr:last-child td { border-bottom: none; }
+.qref-table tbody tr:hover td { background: var(--accent-glow); }
+
+.qref-table td:first-child {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11px;
+color: var(--syn-method);
+white-space: nowrap;
+}
+
+.qref-table td:nth-child(2) {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11px;
+color: var(--text-primary);
+white-space: nowrap;
+}
+
+/* ── DIVIDER ────────────────────────────────── */
+.section-divider {
+height: 1px;
+background: linear-gradient(90deg, var(--border), transparent);
+margin: 0 0 40px;
+}
+
+/* ── INLINE CODE ────────────────────────────── */
+p code, li code {
+font-family: 'JetBrains Mono', monospace;
+font-size: 11.5px;
+color: var(--syn-method);
+background: var(--bg-inset);
+border: 1px solid var(--border);
+border-radius: 3px;
+padding: 1px 5px;
+}
+
+/* ── SCROLLBAR ──────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-panel); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+/* ── SEARCH BAR ─────────────────────────────── */
+.search-wrap {
+padding: 12px 14px;
+border-bottom: 1px solid var(--border);
+}
+
+.search-input {
+width: 100%;
+background: var(--bg-inset);
+border: 1px solid var(--border);
+border-radius: var(--radius);
+padding: 6px 10px;
+font-family: 'JetBrains Mono', monospace;
+font-size: 11.5px;
+color: var(--text-primary);
+outline: none;
+
+}
+
+.search-input::placeholder { color: var(--text-dim); }
+.search-input:focus { border-color: var(--accent-dim); }
+
+/* ── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 900px) {
+.shell { flex-direction: column; }
+.sidebar { width: 100%; height: auto; position: static; max-height: 40vh; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 20px; z-index: 10; }
+.main { padding: 24px 20px 60px; max-width: 100%; }
+}
+
+/* ── COLLAPSE ANIMATION ─────────────────────── */
+.collapsible { overflow: hidden;  }
+.collapsed { max-height: 0 !important; }
+</style>
+
+</head>  
+<body>  <div class="shell">    <!-- ══ SIDEBAR ══════════════════════════════════════════ -->    <nav class="sidebar">  
+    <div class="sidebar-logo">  
+      <span class="logo-tag">// reference handbook</span>  
+      <h1>Java DSA</h1>  
+      <div class="subtitle">For C++ Programmers</div>  
+    </div>  <div class="search-wrap">  
+  <input class="search-input" type="text" placeholder="/ search topics..." id="sidebarSearch">  
+</div>  
+
+<div class="sidebar-section-label">§1 Fundamentals</div>  
+<a href="#sec1" class="sidebar-link"><span class="link-num">01</span> Arrays</a>  
+<a href="#sec2" class="sidebar-link"><span class="link-num">02</span> Strings</a>  
+<a href="#sec3" class="sidebar-link"><span class="link-num">03</span> StringBuilder</a>  
+<a href="#sec4" class="sidebar-link"><span class="link-num">04</span> Classes</a>  
+<a href="#sec5" class="sidebar-link"><span class="link-num">05</span> Generics</a>  
+
+<div class="sidebar-section-label">§2 Collections</div>  
+<a href="#sec6" class="sidebar-link"><span class="link-num">06</span> Collections Hierarchy</a>  
+
+<div class="sidebar-section-label">§3 Lists</div>  
+<a href="#sec7" class="sidebar-link"><span class="link-num">07</span> ArrayList</a>  
+<a href="#sec8" class="sidebar-link"><span class="link-num">08</span> LinkedList</a>  
+
+<div class="sidebar-section-label">§4 Stacks & Queues</div>  
+<a href="#sec9" class="sidebar-link"><span class="link-num">09</span> Stack</a>  
+<a href="#sec10" class="sidebar-link"><span class="link-num">10</span> Queue</a>  
+<a href="#sec11" class="sidebar-link"><span class="link-num">11</span> Deque</a>  
+
+<div class="sidebar-section-label">§5 Heaps</div>  
+<a href="#sec12" class="sidebar-link"><span class="link-num">12</span> PriorityQueue</a>  
+
+<div class="sidebar-section-label">§6 Sets</div>  
+<a href="#sec13" class="sidebar-link"><span class="link-num">13</span> HashSet</a>  
+<a href="#sec14" class="sidebar-link"><span class="link-num">14</span> LinkedHashSet</a>  
+<a href="#sec15" class="sidebar-link"><span class="link-num">15</span> TreeSet</a>  
+
+<div class="sidebar-section-label">§7 Maps</div>  
+<a href="#sec16" class="sidebar-link"><span class="link-num">16</span> HashMap</a>  
+<a href="#sec17" class="sidebar-link"><span class="link-num">17</span> LinkedHashMap</a>  
+<a href="#sec18" class="sidebar-link"><span class="link-num">18</span> TreeMap</a>  
+
+<div class="sidebar-section-label">§8 Sorting</div>  
+<a href="#sec19" class="sidebar-link"><span class="link-num">19</span> Comparator</a>  
+<a href="#sec20" class="sidebar-link"><span class="link-num">20</span> Comparable</a>  
+
+<div class="sidebar-section-label">§9 Lambdas</div>  
+<a href="#sec21" class="sidebar-link"><span class="link-num">21</span> Lambda Expressions</a>  
+
+<div class="sidebar-section-label">§10 Custom Structures</div>  
+<a href="#sec22" class="sidebar-link"><span class="link-num">22</span> Pair Alternatives</a>  
+<a href="#sec23" class="sidebar-link"><span class="link-num">23</span> Custom Node Classes</a>  
+
+<div class="sidebar-section-label">§11 Fast I/O</div>  
+<a href="#sec24" class="sidebar-link"><span class="link-num">24</span> Fast Input Output</a>  
+
+<div class="sidebar-section-label">§12 Utilities</div>  
+<a href="#sec25" class="sidebar-link"><span class="link-num">25</span> Arrays Utility</a>  
+<a href="#sec26" class="sidebar-link"><span class="link-num">26</span> Collections Algorithms</a>  
+<a href="#sec27" class="sidebar-link"><span class="link-num">27</span> Math Utility</a>  
+<a href="#sec28" class="sidebar-link"><span class="link-num">28</span> Objects Utility</a>  
+
+<div class="sidebar-section-label">§13 Patterns</div>  
+<a href="#sec-patterns" class="sidebar-link"><span class="link-num">★</span> DSA Patterns</a>  
+
+<div class="sidebar-section-label">§14 Quick Ref</div>  
+<a href="#sec-cheatsheet" class="sidebar-link"><span class="link-num">▶</span> C++ → Java Map</a>  
+<a href="#sec-methods" class="sidebar-link"><span class="link-num">▶</span> 100+ Methods</a>
+
+  </nav>    <!-- ══ MAIN ═════════════════════════════════════════════ -->    <main class="main">  <!-- HERO -->  
+<div class="hero">  
+  <div class="hero-eyebrow">@Anthropic / Java DSA Reference v1.0</div>  
+  <h1>Java DSA <span>Cheat Sheet</span><br>& Reference Handbook</h1>  
+  <p class="hero-desc">A comprehensive reference for C++ programmers transitioning to Java for DSA and competitive programming. Every data structure, utility, and pattern — with syntax highlighting and C++ equivalents.</p>  
+  <div class="hero-stats">  
+    <div class="hero-stat"><span class="val">28</span><span class="lbl">Topics Covered</span></div>  
+    <div class="hero-stat"><span class="val">100+</span><span class="lbl">Methods Reference</span></div>  
+    <div class="hero-stat"><span class="val">8</span><span class="lbl">DSA Patterns</span></div>  
+    <div class="hero-stat"><span class="val">15</span><span class="lbl">C++ Equivalents</span></div>  
+  </div>  
+</div>  
+
+<!-- ══ SECTION 1: FUNDAMENTALS ═══════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 01</span>  
+  <h2>Java Fundamentals for DSA</h2>  
+</div>  
+
+<!-- 1. Arrays -->  
+<div class="topic-card" id="sec1">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">01</span>  
+    <span class="topic-title">Arrays</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>In the Java virtual machine, arrays are dynamically allocated objects stored in contiguous memory locations on the heap. The array size is determined fixedly at the moment of allocation and cannot be altered thereafter. This contiguous memory architecture ensures fast random indexing capabilities, mirroring the memory properties of C++ array segments.</p>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">Advantages</div>  
+      <ul class="adv-list">  
+        <li><strong>Constant-Time Indexing:</strong> Accessing any element using its bracket index requires only a single memory address lookup, completing in O(1) time.</li>  
+        <li><strong>Optimal Cache Locality:</strong> Sequential traversal is highly efficient because elements reside adjacent to each other, maximizing CPU cache utilization.</li>  
+        <li><strong>Jagged Array Construction:</strong> Multidimensional layouts can be allocated as jagged arrays, allowing each row to contain a different number of column slots.</li>  
+      </ul>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header">  
+          <div class="code-dots"><span></span><span></span><span></span></div>  
+          <span class="lang-tag">Java</span>  
+        </div>
+
+<pre><code><span class="cm">// 1D Array Declaration and Allocation</span>  
+<span class="kw">int</span>[] arr1 = <span class="kw">new</span> <span class="ty">int</span>[<span class="nm">5</span>];  
+<span class="kw">int</span>[] arr2 = {<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>, <span class="nm">5</span>};  
+  
+<span class="cm">// Jagged Multi-dimensional Array Allocation</span>  
+<span class="kw">int</span>[][] jaggedArray = <span class="kw">new</span> <span class="ty">int</span>[<span class="nm">3</span>][];  
+jaggedArray[<span class="nm">0</span>] = <span class="kw">new</span> <span class="ty">int</span>[<span class="nm">2</span>];  
+jaggedArray[<span class="nm">1</span>] = <span class="kw">new</span> <span class="ty">int</span>[<span class="nm">4</span>];  
+jaggedArray[<span class="nm">2</span>] = <span class="kw">new</span> <span class="ty">int</span>[<span class="nm">3</span>];  
+  
+<span class="cm">// Iteration using standard for-loop</span>  
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; arr2.length; i++) {  
+    <span class="kw">int</span> value = arr2[i];  
+}  
+  
+<span class="cm">// Traversal using enhanced for-each loop</span>  
+<span class="kw">for</span> (<span class="kw">int</span> element : arr2) {  
+    <span class="kw">int</span> value = element;  
+}</code></pre>  </div>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Syntax</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>Access</td><td>Retrieve element at index</td><td><code>int val = arr[index]</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>Write</td><td>Overwrite element at index</td><td><code>arr[index] = val</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>Length</td><td>Get array element count</td><td><code>int len = arr.length</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>Sort</td><td>Sort elements in-place</td><td><code>Arrays.sort(arr)</code></td><td><span class="cx cx-olog">O(n log n)</span></td></tr>  
+          <tr><td>Fill</td><td>Assign a single value to all indices</td><td><code>Arrays.fill(arr, val)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Binary Search</td><td>Find an element in a sorted array</td><td><code>Arrays.binarySearch(arr, target)</code></td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>Copy Of</td><td>Duplicate a range of an array</td><td><code>Arrays.copyOf(arr, newLength)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Equals</td><td>Compare two arrays structurally</td><td><code>Arrays.equals(arr1, arr2)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>ToString</td><td>Convert array elements into a readable string</td><td><code>Arrays.toString(arr)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Dynamic Range Index Lookup</span>  
+        <span class="interview-tag">Character Frequency Buckets</span>  
+        <span class="interview-tag">Matrix Traversal</span>  
+        <span class="interview-tag">Prefix Sums</span>  
+      </div>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::vector&lt;int&gt;</td><td>int[] or ArrayList&lt;Integer&gt;</td><td>int[] is fixed-size; ArrayList handles dynamic resizing automatically.</td></tr>  
+          <tr><td>std::array&lt;int, N&gt;</td><td>int[]</td><td>Both have fixed bounds that cannot be changed after instantiation.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Length Property vs Method:</strong> Writing <code>arr.length()</code> instead of the correct field syntax <code>arr.length</code> causes a compilation failure.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Unsorted Binary Search:</strong> Using <code>Arrays.binarySearch</code> on an unsorted array results in undefined index evaluations.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Covariance Runtime Errors:</strong> Assigning a subclass array to a superclass reference compiles but throws <code>ArrayStoreException</code> at runtime on incompatible insertions.</span></li>  
+      </ul>  
+    </div>  
+
+  </div>  
+</div>  
+
+<!-- 2. Strings -->  
+<div class="topic-card" id="sec2">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">02</span>  
+    <span class="topic-title">Strings</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>In Java, strings are represented by the immutable <code>java.lang.String</code> class. Immutability ensures thread safety and allows identical string literals to be cached in the JVM String Pool to save memory. However, modifying a string requires allocating a new object on the heap, which can cause performance overhead if done repeatedly in loops.</p>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header">  
+          <div class="code-dots"><span></span><span></span><span></span></div>  
+          <span class="lang-tag">Java</span>  
+        </div>
+
+<pre><code><span class="cm">// String allocation strategies</span>  
+<span class="ty">String</span> s1 = <span class="st">"literal_value"</span>;  
+<span class="ty">String</span> s2 = <span class="kw">new</span> <span class="ty">String</span>(<span class="st">"heap_value"</span>);  
+  
+<span class="cm">// Iterative character parsing</span>  
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; s1.<span class="mt">length</span>(); i++) {  
+    <span class="kw">char</span> c = s1.<span class="mt">charAt</span>(i);  
+}  
+  
+<span class="cm">// Conversion to a character array</span>  
+<span class="kw">for</span> (<span class="kw">char</span> element : s1.<span class="mt">toCharArray</span>()) {  
+    <span class="kw">char</span> curChar = element;  
+}  
+  
+<span class="cm">// Important Constructors</span>  
+<span class="ty">String</span> emptyStr = <span class="kw">new</span> <span class="ty">String</span>();  
+<span class="kw">char</span>[] charSeq = {<span class="st">'j'</span>, <span class="st">'a'</span>, <span class="st">'v'</span>, <span class="st">'a'</span>};  
+<span class="ty">String</span> fromArray = <span class="kw">new</span> <span class="ty">String</span>(charSeq);  
+<span class="ty">String</span> cloneStr = <span class="kw">new</span> <span class="ty">String</span>(s1);</code></pre>  </div>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Syntax</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>length</td><td>Get character count</td><td><code>s.length()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>charAt</td><td>Retrieve character at index</td><td><code>s.charAt(index)</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>substring</td><td>Extract portion from range</td><td><code>s.substring(start, end)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>contains</td><td>Search for substring</td><td><code>s.contains(target)</code></td><td><span class="cx cx-onm">O(n·m)</span></td></tr>  
+          <tr><td>startsWith</td><td>Prefix check</td><td><code>s.startsWith(prefix)</code></td><td><span class="cx cx-o1">O(k)</span></td></tr>  
+          <tr><td>endsWith</td><td>Suffix check</td><td><code>s.endsWith(suffix)</code></td><td><span class="cx cx-o1">O(k)</span></td></tr>  
+          <tr><td>replace</td><td>Substitute characters or patterns</td><td><code>s.replace(oldC, newC)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>split</td><td>Partition string using regex</td><td><code>s.split(regex)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>indexOf</td><td>Locate first occurrence index</td><td><code>s.indexOf(target)</code></td><td><span class="cx cx-onm">O(n·m)</span></td></tr>  
+          <tr><td>toCharArray</td><td>Generate primitive char array copy</td><td><code>s.toCharArray()</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>compareTo</td><td>Lexicographical comparison</td><td><code>s1.compareTo(s2)</code></td><td><span class="cx cx-on">O(min(n,m))</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Anagram Detection</span>  
+        <span class="interview-tag">Palindrome Verification</span>  
+        <span class="interview-tag">Regex Token Matching</span>  
+      </div>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::string</td><td>java.lang.String</td><td>Java's String is completely immutable; C++ std::string is mutable.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Direct Equality Comparison:</strong> Using <code>==</code> on strings checks reference identity. Always use <code>s1.equals(s2)</code>.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Quadratic Loop Concatenation:</strong> Re-allocating string objects in a loop results in O(n²) complexity. Use <code>StringBuilder</code> instead.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Index Out Of Bounds:</strong> Reading an out-of-bounds character via <code>charAt()</code> triggers <code>StringIndexOutOfBoundsException</code>.</span></li>  
+      </ul>  
+    </div>  
+
+  </div>  
+</div>  
+
+<!-- 3. StringBuilder -->  
+<div class="topic-card" id="sec3">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">03</span>  
+    <span class="topic-title">StringBuilder</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>StringBuilder represents a mutable sequence of characters, functioning as an internal resizable character buffer. It is specifically designed to eliminate the performance bottleneck of string concatenation by avoiding unnecessary string object recreation. It is unsynchronized and fast, making it ideal for single-threaded applications.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Default construction (pre-allocated 16 character slots)</span>  
+<span class="ty">StringBuilder</span> sb = <span class="kw">new</span> <span class="cl">StringBuilder</span>();  
+  
+<span class="cm">// Modifying and appending elements</span>  
+sb.<span class="mt">append</span>(<span class="st">"base_value"</span>);  
+sb.<span class="mt">append</span>(<span class="st">'_'</span>);  
+sb.<span class="mt">append</span>(<span class="nm">100</span>);  
+  
+<span class="cm">// Pre-allocate a custom starting capacity</span>  
+<span class="ty">StringBuilder</span> sbSized = <span class="kw">new</span> <span class="cl">StringBuilder</span>(<span class="nm">100</span>);  
+  
+<span class="cm">// Converting back to an immutable String</span>  
+<span class="ty">String</span> result = sb.<span class="mt">toString</span>();</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Syntax</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>append</td><td>Concatenate text to end</td><td><code>sb.append(data)</code></td><td><span class="cx cx-o1">O(1) amortized</span></td></tr>  
+          <tr><td>insert</td><td>Insert text at target index</td><td><code>sb.insert(index, data)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>delete</td><td>Remove segment within bounds</td><td><code>sb.delete(start, end)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>reverse</td><td>Reverse sequence in-place</td><td><code>sb.reverse()</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>setCharAt</td><td>Update single character at index</td><td><code>sb.setCharAt(index, 'c')</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>charAt</td><td>Retrieve character at index</td><td><code>sb.charAt(index)</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>toString</td><td>Convert internal sequence to String</td><td><code>sb.toString()</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Reversing Character Arrays</span>  
+        <span class="interview-tag">Dynamic Path Backtracking (DFS)</span>  
+        <span class="interview-tag">Parsing Expressions</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::stringstream</td><td>StringBuilder</td><td>std::stringstream handles formatted I/O, while StringBuilder acts as a fast character buffer.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Equality Misinterpretation:</strong> <code>equals()</code> on a StringBuilder checks reference identity. Convert to string first: <code>sb.toString().equals(...)</code></span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Capacity Resizing Overhead:</strong> Initializing with too small a capacity causes repeated internal array copies. Pre-allocate when possible.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 4. Classes -->  
+<div class="topic-card" id="sec4">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">04</span>  
+    <span class="topic-title">Classes</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>Java is a class-centric, object-oriented language; all variable declarations, operations, and execution blocks must reside inside class definitions. Classes serve as blueprints for objects, which are allocated on the heap and managed via references. Static class members belong to the class itself and are shared across all instances.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Structuring class blueprints</span>  
+<span class="kw">class</span> <span class="cl">Edge</span> {  
+    <span class="kw">int</span> target;  
+    <span class="kw">int</span> weight;  
+    <span class="kw">static int</span> edgeCount = <span class="nm">0</span>; <span class="cm">// Shared static variable</span>  
+  
+    <span class="cm">// Constructor</span>  
+    <span class="kw">public</span> <span class="cl">Edge</span>(<span class="kw">int</span> target, <span class="kw">int</span> weight) {  
+        <span class="kw">this</span>.target = target;  
+        <span class="kw">this</span>.weight = weight;  
+        edgeCount++;  
+    }  
+  
+    <span class="cm">// Static Utility Method</span>  
+    <span class="kw">public static int</span> <span class="mt">getEdgeCount</span>() {  
+        <span class="kw">return</span> edgeCount;  
+    }  
+}</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Node Representation</span>  
+        <span class="interview-tag">Custom PriorityQueue Elements</span>  
+        <span class="interview-tag">Dynamic Interval Modeling</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Default Equality and Hash Checks:</strong> Custom classes must override both <code>equals()</code> and <code>hashCode()</code> to work correctly inside HashMap or HashSet collections.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Non-Static Variable Access:</strong> Attempting to reference instance-level fields from inside static contexts results in a compilation failure.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 5. Generics -->  
+<div class="topic-card" id="sec5">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">05</span>  
+    <span class="topic-title">Generics</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>Java Generics provide compile-time type safety by allowing classes, interfaces, and methods to be parameterized with different object types. Generics use type erasure — the compiler checks types at compile-time and then replaces them with raw <code>java.lang.Object</code> references in the generated bytecode.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Generic Class declaration</span>  
+<span class="kw">class</span> <span class="cl">QueueContainer</span>&lt;<span class="ty">T</span>&gt; {  
+    <span class="kw">private</span> <span class="ty">T</span> item;  
+    <span class="kw">public void</span> <span class="mt">add</span>(<span class="ty">T</span> item) { <span class="kw">this</span>.item = item; }  
+    <span class="kw">public</span> <span class="ty">T</span> <span class="mt">get</span>() { <span class="kw">return</span> item; }  
+}  
+  
+<span class="cm">// Generic Method declaration</span>  
+<span class="kw">class</span> <span class="cl">SearchHelper</span> {  
+    <span class="kw">public static</span> &lt;<span class="ty">E</span>&gt; <span class="kw">boolean</span> <span class="mt">includes</span>(<span class="ty">E</span>[] array, <span class="ty">E</span> element) {  
+        <span class="kw">for</span> (<span class="ty">E</span> item : array) {  
+            <span class="kw">if</span> (item.<span class="mt">equals</span>(element)) <span class="kw">return true</span>;  
+        }  
+        <span class="kw">return false</span>;  
+    }  
+}  
+  
+<span class="cm">// Diamond Operator Instantiation</span>  
+<span class="cl">QueueContainer</span>&lt;<span class="ty">Integer</span>&gt; q = <span class="kw">new</span> <span class="cl">QueueContainer</span>&lt;&gt;();</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>template&lt;typename T&gt;</td><td>class Container&lt;T&gt;</td><td>C++ templates generate unique machine code copies per type; Java uses type erasure.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Primitive Types Restriction:</strong> Generics only work with reference types. Use wrapper classes like <code>Integer</code>, <code>Character</code> instead of <code>int</code>, <code>char</code>.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Generic Array Instantiation:</strong> <code>new T[]</code> is prohibited due to type erasure. Use <code>(T[]) new Object[size]</code> instead.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ SECTION 2: COLLECTIONS ═════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 02</span>  
+  <h2>Collections Framework</h2>  
+</div>  
+
+<div class="topic-card" id="sec6">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">06</span>  
+    <span class="topic-title">Collections Framework Hierarchy</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>The Java Collections Framework provides a unified architecture for modeling and manipulating groups of objects. Understanding its hierarchy of interfaces (Collection, List, Set, Queue) and concrete implementations (ArrayList, HashSet, ArrayDeque) is essential for writing efficient algorithms.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Polymorphic declarations — program to interface</span>  
+<span class="ty">List</span>&lt;<span class="ty">Integer</span>&gt; arrayList = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();  
+<span class="ty">Queue</span>&lt;<span class="ty">String</span>&gt; arrayQueue = <span class="kw">new</span> <span class="cl">ArrayDeque</span>&lt;&gt;();  
+<span class="ty">Set</span>&lt;<span class="ty">Double</span>&gt; hashSet = <span class="kw">new</span> <span class="cl">HashSet</span>&lt;&gt;();  
+<span class="ty">Map</span>&lt;<span class="ty">Integer</span>, <span class="ty">String</span>&gt; hashMap = <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();  
+  
+<span class="cm">// Copy constructor pattern</span>  
+<span class="ty">List</span>&lt;<span class="ty">Integer</span>&gt; listCopy = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;(existingSet);</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Structural Modification Violations:</strong> Modifying a collection while iterating over it throws <code>ConcurrentModificationException</code>. Use the iterator's own <code>remove()</code> method.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Autoboxing Performance Overhead:</strong> Repeatedly inserting primitives triggers boxing operations, degrading performance in high-frequency loops.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ SECTION 3: LISTS ═══════════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 03</span>  
+  <h2>List Implementations</h2>  
+</div>  
+
+<!-- 7. ArrayList -->  
+<div class="topic-card" id="sec7">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">07</span>  
+    <span class="topic-title">ArrayList</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>ArrayList is a dynamic, resizable-array implementation of the List interface — the standard equivalent to C++'s <code>std::vector</code>. Provides fast O(1) index-based access, but requires O(n) element shifts during modifications at intermediate indices. Resizes by a factor of 1.5 when capacity is exceeded.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Default Constructor (Initial Capacity of 10)</span>  
+<span class="ty">ArrayList</span>&lt;<span class="ty">Integer</span>&gt; list = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();  
+  
+<span class="cm">// Explicit Capacity Pre-allocation</span>  
+<span class="ty">ArrayList</span>&lt;<span class="ty">Integer</span>&gt; l2 = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;(<span class="nm">100</span>);  
+  
+<span class="cm">// Appending elements</span>  
+list.<span class="mt">add</span>(<span class="nm">10</span>);  
+list.<span class="mt">add</span>(<span class="nm">20</span>);  
+  
+<span class="cm">// Traverse list</span>  
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; list.<span class="mt">size</span>(); i++) {  
+    <span class="kw">int</span> val = list.<span class="mt">get</span>(i);  
+}  
+  
+<span class="cm">// Backtracking pattern — remove last element</span>  
+list.<span class="mt">remove</span>(list.<span class="mt">size</span>() - <span class="nm">1</span>);</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Syntax</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>add</td><td>Append element to end</td><td><code>list.add(element)</code></td><td><span class="cx cx-o1">O(1) amortized</span></td></tr>  
+          <tr><td>add(idx)</td><td>Insert element at index</td><td><code>list.add(index, element)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>get</td><td>Retrieve element at index</td><td><code>list.get(index)</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>set</td><td>Modify element at index</td><td><code>list.set(index, element)</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>remove</td><td>Delete element at index</td><td><code>list.remove(index)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>size</td><td>Retrieve element count</td><td><code>list.size()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>clear</td><td>Flush all elements</td><td><code>list.clear()</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Backtracking Paths</span>  
+        <span class="interview-tag">Adjacency List Construction</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::vector&lt;T&gt;</td><td>ArrayList&lt;T&gt;</td><td>Internally duplicates array when threshold limits are breached (resized by a factor of 1.5).</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Inefficient Shift Operations:</strong> Inserting or removing at index 0 forces the entire array to shift — O(n). Use a Deque for front operations.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 8. LinkedList -->  
+<div class="topic-card" id="sec8">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">08</span>  
+    <span class="topic-title">LinkedList</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>LinkedList is a doubly-linked list implementation of the List, Queue, and Deque interfaces. Guarantees constant-time O(1) insertions and deletions at both ends, but requires linear O(n) traversal to access intermediate elements.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="ty">LinkedList</span>&lt;<span class="ty">Integer</span>&gt; list = <span class="kw">new</span> <span class="cl">LinkedList</span>&lt;&gt;();  
+  
+list.<span class="mt">addFirst</span>(<span class="nm">5</span>);  
+list.<span class="mt">addLast</span>(<span class="nm">15</span>);  
+  
+<span class="kw">int</span> head = list.<span class="mt">getFirst</span>();  
+<span class="kw">int</span> tail = list.<span class="mt">getLast</span>();  
+  
+list.<span class="mt">removeFirst</span>();  
+list.<span class="mt">removeLast</span>();</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Syntax</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>addFirst</td><td>Prepend element to start</td><td><code>list.addFirst(e)</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>addLast</td><td>Append element to end</td><td><code>list.addLast(e)</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>getFirst</td><td>Retrieve first element</td><td><code>list.getFirst()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>getLast</td><td>Retrieve last element</td><td><code>list.getLast()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>removeFirst</td><td>Evict first element</td><td><code>list.removeFirst()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>get</td><td>Retrieve element at index</td><td><code>list.get(index)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Queue/Deque for BFS</span>  
+        <span class="interview-tag">LRU Cache Key Tracking</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>High Memory Footprint:</strong> Allocates discrete wrapper nodes with forward and backward pointers — significant GC overhead.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Poor Random Access:</strong> Accessing index positions requires sequentially traversing pointer links — O(n).</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ STACKS & QUEUES ═══════════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 04</span>  
+  <h2>Stacks &amp; Queues</h2>  
+</div>  
+
+<!-- 9. Stack -->  
+<div class="topic-card" id="sec9">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">09</span>  
+    <span class="topic-title">Stack</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>The legacy <code>java.util.Stack</code> implements LIFO stack operations, but extends <code>java.util.Vector</code> which uses thread-safe synchronization locks — highly inefficient for competitive programming. <strong>Modern applications should use Deque (ArrayDeque) as a faster stack alternative.</strong></p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// ❌ Legacy — avoid in competitive programming</span>  
+<span class="ty">Stack</span>&lt;<span class="ty">Integer</span>&gt; stack = <span class="kw">new</span> <span class="cl">Stack</span>&lt;&gt;();  
+  
+<span class="cm">// ✅ Preferred — non-synchronized stack via Deque</span>  
+<span class="ty">Deque</span>&lt;<span class="ty">Integer</span>&gt; fastStack = <span class="kw">new</span> <span class="cl">ArrayDeque</span>&lt;&gt;();  
+fastStack.<span class="mt">push</span>(<span class="nm">10</span>);  
+fastStack.<span class="mt">push</span>(<span class="nm">20</span>);  
+<span class="kw">int</span> top = fastStack.<span class="mt">peek</span>();   <span class="cm">// view top</span>  
+<span class="kw">int</span> val = fastStack.<span class="mt">pop</span>();    <span class="cm">// remove top</span>  
+<span class="kw">boolean</span> empty = fastStack.<span class="mt">isEmpty</span>();</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Syntax</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>push</td><td>Push element onto top</td><td><code>stack.push(val)</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>pop</td><td>Pop and return top element</td><td><code>stack.pop()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>peek</td><td>View top without removing</td><td><code>stack.peek()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>isEmpty</td><td>Check if stack is empty</td><td><code>stack.isEmpty()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">DFS (manual)</span>  
+        <span class="interview-tag">Balanced Parentheses</span>  
+        <span class="interview-tag">Monotonic Stack</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::stack&lt;T&gt;</td><td>ArrayDeque&lt;T&gt;</td><td>Using ArrayDeque via push/pop is highly recommended over the legacy Stack class.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Synchronization Bottleneck:</strong> Legacy Stack methods use synchronized blocks — introduces locking overhead in high-frequency loops.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 10. Queue -->  
+<div class="topic-card" id="sec10">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">10</span>  
+    <span class="topic-title">Queue</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>In Java, Queue is an interface for FIFO collections. Implemented via <code>ArrayDeque</code> (circular array) or <code>LinkedList</code> (pointer-based), both supporting fast O(1) insertions and removals. Always prefer <code>ArrayDeque</code>-backed queues for performance.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// FIFO Queue — ArrayDeque backed</span>  
+<span class="ty">Queue</span>&lt;<span class="ty">Integer</span>&gt; queue = <span class="kw">new</span> <span class="cl">ArrayDeque</span>&lt;&gt;();  
+queue.<span class="mt">offer</span>(<span class="nm">10</span>);  
+queue.<span class="mt">offer</span>(<span class="nm">20</span>);  
+  
+<span class="cm">// BFS-style processing loop</span>  
+<span class="kw">while</span> (!queue.<span class="mt">isEmpty</span>()) {  
+    <span class="kw">int</span> val = queue.<span class="mt">poll</span>(); <span class="cm">// removes and returns head</span>  
+}  
+  
+<span class="kw">int</span> head = queue.<span class="mt">peek</span>(); <span class="cm">// view head without removing</span></code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Type</th><th>Throwing Method</th><th>Safe Method</th><th>Purpose</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>Insert</td><td><code>add(e)</code></td><td><code>offer(e)</code></td><td>Add to tail</td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>Remove</td><td><code>remove()</code></td><td><code>poll()</code></td><td>Remove and return head</td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>Examine</td><td><code>element()</code></td><td><code>peek()</code></td><td>View head</td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">BFS (Graph/Tree)</span>  
+        <span class="interview-tag">Level-order Traversal</span>  
+        <span class="interview-tag">Task Scheduling</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Null Value Traps:</strong> Inserting null into an ArrayDeque-backed Queue is prohibited. Also creates issues with <code>poll()</code> checks that use null for empty state.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 11. Deque -->  
+<div class="topic-card" id="sec11">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">11</span>  
+    <span class="topic-title">Deque (ArrayDeque)</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>Deque supports constant-time insertions and removals at both ends. Implemented as a circular array via <code>ArrayDeque</code>, it outperforms both legacy Stack and pointer-based LinkedList for stack and queue operations. Uses a bitwise mask on a circular power-of-two array to wrap indices efficiently.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="ty">Deque</span>&lt;<span class="ty">Integer</span>&gt; deque = <span class="kw">new</span> <span class="cl">ArrayDeque</span>&lt;&gt;();  
+  
+deque.<span class="mt">addFirst</span>(<span class="nm">10</span>);  <span class="cm">// push to front</span>  
+deque.<span class="mt">addLast</span>(<span class="nm">20</span>);   <span class="cm">// push to rear</span>  
+  
+<span class="kw">int</span> first = deque.<span class="mt">peekFirst</span>();  <span class="cm">// view front</span>  
+<span class="kw">int</span> last = deque.<span class="mt">peekLast</span>();    <span class="cm">// view rear</span>  
+  
+deque.<span class="mt">pollFirst</span>();   <span class="cm">// evict front</span>  
+deque.<span class="mt">pollLast</span>();    <span class="cm">// evict rear</span></code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Syntax</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>addFirst</td><td>Add element to front</td><td><code>deque.addFirst(e)</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>addLast</td><td>Add element to rear</td><td><code>deque.addLast(e)</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>pollFirst</td><td>Evict and return front</td><td><code>deque.pollFirst()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>pollLast</td><td>Evict and return rear</td><td><code>deque.pollLast()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>peekFirst</td><td>View front element</td><td><code>deque.peekFirst()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>peekLast</td><td>View rear element</td><td><code>deque.peekLast()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Monotonic Deque / Sliding Window Max</span>  
+        <span class="interview-tag">Palindrome Matching</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>No Nulls Allowed:</strong> ArrayDeque throws NullPointerException on null insertion.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Middle Modifications:</strong> Finding/removing middle elements requires O(n) search and shift.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ HEAPS ══════════════════════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 05</span>  
+  <h2>Heaps</h2>  
+</div>  
+
+<div class="topic-card" id="sec12">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">12</span>  
+    <span class="topic-title">PriorityQueue</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>PriorityQueue is an unbounded priority queue backed by a balanced binary min-heap. Guarantees O(log n) for insertions and removals, and O(1) to retrieve the minimum element. Default ordering is natural ascending order, but can be customized with a Comparator.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Default min-heap (lowest value at top)</span>  
+<span class="ty">PriorityQueue</span>&lt;<span class="ty">Integer</span>&gt; minHeap = <span class="kw">new</span> <span class="cl">PriorityQueue</span>&lt;&gt;();  
+  
+<span class="cm">// Max-heap (highest value at top)</span>  
+<span class="ty">PriorityQueue</span>&lt;<span class="ty">Integer</span>&gt; maxHeap = <span class="kw">new</span> <span class="cl">PriorityQueue</span>&lt;&gt;(  
+    <span class="cl">Collections</span>.<span class="mt">reverseOrder</span>()  
+);  
+  
+<span class="cm">// Custom object sorting (Dijkstra example)</span>  
+<span class="ty">PriorityQueue</span>&lt;<span class="kw">int</span>[]&gt; pq = <span class="kw">new</span> <span class="cl">PriorityQueue</span>&lt;&gt;(  
+    (a, b) -&gt; <span class="cl">Integer</span>.<span class="mt">compare</span>(a[<span class="nm">0</span>], b[<span class="nm">0</span>])  
+);  
+  
+<span class="cm">// With predefined capacity and comparator</span>  
+<span class="ty">PriorityQueue</span>&lt;<span class="ty">Integer</span>&gt; pq2 = <span class="kw">new</span> <span class="cl">PriorityQueue</span>&lt;&gt;(<span class="nm">50</span>, (a, b) -&gt; b - a);  
+  
+pq.<span class="mt">offer</span>(val);  <span class="cm">// insert</span>  
+pq.<span class="mt">poll</span>();      <span class="cm">// remove top</span>  
+pq.<span class="mt">peek</span>();      <span class="cm">// view top</span></code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Syntax</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>offer</td><td>Insert element into heap</td><td><code>pq.offer(val)</code></td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>poll</td><td>Retrieve and remove top element</td><td><code>pq.poll()</code></td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>peek</td><td>Retrieve top without removing</td><td><code>pq.peek()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>size</td><td>Get number of elements</td><td><code>pq.size()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>remove</td><td>Remove a specific element</td><td><code>pq.remove(obj)</code></td><td><span class="cx cx-on">O(n)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Dijkstra's Shortest Path</span>  
+        <span class="interview-tag">Top K Elements</span>  
+        <span class="interview-tag">Interval Merging</span>  
+        <span class="interview-tag">Kth Largest Element</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::priority_queue&lt;T&gt;</td><td>PriorityQueue&lt;T&gt;</td><td>C++ defaults to a max-heap; Java's default PriorityQueue is a min-heap.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Underflow Comparator Bugs:</strong> Using subtraction <code>(a, b) → a - b</code> can cause integer overflow. Always use <code>Integer.compare(a, b)</code>.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Dynamic Object Updates:</strong> Modifying a field on an object already inside a heap does NOT trigger re-sort. Must remove, modify, re-insert.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ SETS ══════════════════════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 06</span>  
+  <h2>Sets</h2>  
+</div>  
+
+<!-- HashSet -->  
+<div class="topic-card" id="sec13">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">13</span>  
+    <span class="topic-title">HashSet</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>HashSet implements the Set interface using an internal HashMap. Guarantees O(1) for add, remove, and contains. Does not maintain insertion or sorting order. Default initial capacity is 16 with a load factor of 0.75.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="ty">HashSet</span>&lt;<span class="ty">Integer</span>&gt; set = <span class="kw">new</span> <span class="cl">HashSet</span>&lt;&gt;();  
+  
+set.<span class="mt">add</span>(<span class="nm">10</span>);  
+set.<span class="mt">add</span>(<span class="nm">20</span>);  
+set.<span class="mt">add</span>(<span class="nm">10</span>); <span class="cm">// duplicate — ignored</span>  
+  
+<span class="kw">boolean</span> exists = set.<span class="mt">contains</span>(<span class="nm">10</span>); <span class="cm">// true</span>  
+set.<span class="mt">remove</span>(<span class="nm">20</span>);  
+<span class="kw">int</span> size = set.<span class="mt">size</span>();  
+  
+<span class="cm">// De-duplicate a list</span>  
+<span class="ty">Set</span>&lt;<span class="ty">Integer</span>&gt; unique = <span class="kw">new</span> <span class="cl">HashSet</span>&lt;&gt;(myList);</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Duplicate Filtration</span>  
+        <span class="interview-tag">Graph Visited Records</span>  
+        <span class="interview-tag">Two-pointer seen set</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::unordered_set&lt;T&gt;</td><td>HashSet&lt;T&gt;</td><td>Both are backed by hash tables with O(1) average complexity.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Bad Hash Distribution:</strong> Custom keys without overriding both <code>equals()</code> and <code>hashCode()</code> can cause O(n) lookups due to hash collisions.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 14. LinkedHashSet -->  
+<div class="topic-card" id="sec14">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">14</span>  
+    <span class="topic-title">LinkedHashSet</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>LinkedHashSet is a hash table and linked list implementation of the Set interface. Maintains a doubly-linked list through all entries, preserving insertion order. Nearly as fast as HashSet with slightly higher memory overhead.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="ty">LinkedHashSet</span>&lt;<span class="ty">String</span>&gt; orderedSet = <span class="kw">new</span> <span class="cl">LinkedHashSet</span>&lt;&gt;();  
+orderedSet.<span class="mt">add</span>(<span class="st">"alpha"</span>);  
+orderedSet.<span class="mt">add</span>(<span class="st">"beta"</span>);  
+  
+<span class="cm">// Iterates in insertion order: "alpha", "beta"</span>  
+<span class="kw">for</span> (<span class="ty">String</span> val : orderedSet) {  
+    <span class="ty">System</span>.out.<span class="mt">println</span>(val);  
+}</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Ordered Unique Keys</span>  
+        <span class="interview-tag">LRU Implementations</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>No direct equivalent</td><td>LinkedHashSet&lt;T&gt;</td><td>C++ requires pairing std::list with std::unordered_map for similar behavior.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 15. TreeSet -->  
+<div class="topic-card" id="sec15">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">15</span>  
+    <span class="topic-title">TreeSet</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>TreeSet is a Red-Black tree-based implementation of NavigableSet. Guarantees O(log n) for core operations and keeps elements sorted. Provides powerful navigation methods like <code>floor()</code>, <code>ceiling()</code>, <code>lower()</code>, and <code>higher()</code>.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="ty">TreeSet</span>&lt;<span class="ty">Integer</span>&gt; ts = <span class="kw">new</span> <span class="cl">TreeSet</span>&lt;&gt;();  
+ts.<span class="mt">add</span>(<span class="nm">40</span>); ts.<span class="mt">add</span>(<span class="nm">10</span>); ts.<span class="mt">add</span>(<span class="nm">50</span>);  
+  
+<span class="kw">int</span> smallest = ts.<span class="mt">first</span>();       <span class="cm">// 10</span>  
+<span class="kw">int</span> largest  = ts.<span class="mt">last</span>();        <span class="cm">// 50</span>  
+<span class="kw">int</span> floor    = ts.<span class="mt">floor</span>(<span class="nm">35</span>);    <span class="cm">// 10 (greatest ≤ 35)</span>  
+<span class="kw">int</span> ceiling  = ts.<span class="mt">ceiling</span>(<span class="nm">35</span>);  <span class="cm">// 40 (least ≥ 35)</span>  
+<span class="kw">int</span> lower    = ts.<span class="mt">lower</span>(<span class="nm">40</span>);    <span class="cm">// 10 (greatest &lt; 40)</span>  
+<span class="kw">int</span> higher   = ts.<span class="mt">higher</span>(<span class="nm">40</span>);   <span class="cm">// 50 (least &gt; 40)</span></code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>first / last</td><td>Get smallest / largest element</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>floor(val)</td><td>Greatest element ≤ val</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>ceiling(val)</td><td>Least element ≥ val</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>lower(val)</td><td>Greatest element &lt; val</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>higher(val)</td><td>Least element &gt; val</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Interval Bookings</span>  
+        <span class="interview-tag">Dynamic Median Tracking</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::set&lt;T&gt;</td><td>TreeSet&lt;T&gt;</td><td>Both use balanced Red-Black trees to keep elements sorted.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Null Elements:</strong> TreeSet does not allow null elements — throws NullPointerException.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Comparator Consistency:</strong> If <code>compare(a, b) == 0</code> for two unequal elements, TreeSet treats them as duplicates.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ MAPS ══════════════════════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 07</span>  
+  <h2>Maps</h2>  
+</div>  
+
+<!-- 16. HashMap -->  
+<div class="topic-card" id="sec16">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">16</span>  
+    <span class="topic-title">HashMap</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>HashMap is a hash table-based implementation of Map. Averages O(1) for put, get, and containsKey. In Java 8+, buckets convert from linked list to Red-Black tree when their size reaches 8 and map capacity is at least 64 (treeification), protecting against worst-case O(n) collision attacks.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="ty">HashMap</span>&lt;<span class="ty">String</span>, <span class="ty">Integer</span>&gt; map = <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();  
+  
+<span class="cm">// Standard put and frequency update pattern</span>  
+map.<span class="mt">put</span>(<span class="st">"key"</span>, <span class="nm">1</span>);  
+map.<span class="mt">put</span>(<span class="st">"key"</span>, map.<span class="mt">getOrDefault</span>(<span class="st">"key"</span>, <span class="nm">0</span>) + <span class="nm">1</span>);  
+  
+<span class="cm">// Check before insert</span>  
+map.<span class="mt">putIfAbsent</span>(<span class="st">"key"</span>, <span class="nm">0</span>);  
+  
+<span class="cm">// Lazy initialization (computeIfAbsent)</span>  
+map.<span class="mt">computeIfAbsent</span>(<span class="st">"key"</span>, k -&gt; <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;()).<span class="mt">add</span>(val);  
+  
+<span class="cm">// Traversal using entrySet</span>  
+<span class="kw">for</span> (<span class="ty">Map</span>.<span class="ty">Entry</span>&lt;<span class="ty">String</span>, <span class="ty">Integer</span>&gt; entry : map.<span class="mt">entrySet</span>()) {  
+    <span class="ty">String</span> k = entry.<span class="mt">getKey</span>();  
+    <span class="kw">int</span> v = entry.<span class="mt">getValue</span>();  
+}</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Syntax</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>put</td><td>Insert or update key-value pair</td><td><code>map.put(k, v)</code></td><td><span class="cx cx-o1">O(1) avg</span></td></tr>  
+          <tr><td>get</td><td>Retrieve value for key</td><td><code>map.get(k)</code></td><td><span class="cx cx-o1">O(1) avg</span></td></tr>  
+          <tr><td>getOrDefault</td><td>Get value or default if absent</td><td><code>map.getOrDefault(k, def)</code></td><td><span class="cx cx-o1">O(1) avg</span></td></tr>  
+          <tr><td>containsKey</td><td>Check if key exists</td><td><code>map.containsKey(k)</code></td><td><span class="cx cx-o1">O(1) avg</span></td></tr>  
+          <tr><td>remove</td><td>Remove key-value pair</td><td><code>map.remove(k)</code></td><td><span class="cx cx-o1">O(1) avg</span></td></tr>  
+          <tr><td>keySet</td><td>Get set of all keys</td><td><code>map.keySet()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>entrySet</td><td>Get set of all key-value entries</td><td><code>map.entrySet()</code></td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>computeIfAbsent</td><td>Lazy value initialization</td><td><code>map.computeIfAbsent(k, f)</code></td><td><span class="cx cx-o1">O(1) avg</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Frequency Map</span>  
+        <span class="interview-tag">Two-Sum Problem</span>  
+        <span class="interview-tag">Subarray Sum Equals K</span>  
+        <span class="interview-tag">Prefix Sum Frequencies</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::unordered_map&lt;K,V&gt;</td><td>HashMap&lt;K,V&gt;</td><td>Both hash table-based. Java 8+ treeification guards against worst-case O(n) collisions.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Unnecessary Resizing:</strong> Small default capacity for huge datasets causes repeated rehashing. Pre-allocate with <code>new HashMap&lt;&gt;(expectedSize)</code>.</span></li>  
+        <li><span class="pitfall-icon">⚠</span><span><strong>ConcurrentModificationException:</strong> Modifying map structure while iterating throws this exception.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 17. LinkedHashMap -->  
+<div class="topic-card" id="sec17">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">17</span>  
+    <span class="topic-title">LinkedHashMap</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>LinkedHashMap is a hash table and linked list implementation of Map. Maintains insertion order and can be configured to track access order, making it perfect for implementing LRU caches by overriding <code>removeEldestEntry()</code>.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Standard insertion-order map</span>  
+<span class="ty">LinkedHashMap</span>&lt;<span class="ty">Integer</span>, <span class="ty">String</span>&gt; orderedMap = <span class="kw">new</span> <span class="cl">LinkedHashMap</span>&lt;&gt;();  
+  
+<span class="cm">// LRU Cache constructor (capacity, load factor, access-order)</span>  
+<span class="ty">LinkedHashMap</span>&lt;<span class="ty">Integer</span>, <span class="ty">String</span>&gt; lruMap =  
+    <span class="kw">new</span> <span class="cl">LinkedHashMap</span>&lt;&gt;(<span class="nm">16</span>, <span class="nm">0.75f</span>, <span class="kw">true</span>) {  
+        <span class="an">@Override</span>  
+        <span class="kw">protected boolean</span> <span class="mt">removeEldestEntry</span>(Map.Entry e) {  
+            <span class="kw">return</span> <span class="mt">size</span>() &gt; CAPACITY;  
+        }  
+    };</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">LRU Cache Implementation</span>  
+        <span class="interview-tag">Order-Preserving Caches</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Performance Overhead:</strong> Standard operations are slightly slower than HashMap due to updating pointer chains.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 18. TreeMap -->  
+<div class="topic-card" id="sec18">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">18</span>  
+    <span class="topic-title">TreeMap</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>TreeMap is a Red-Black tree-based implementation of NavigableMap. Guarantees O(log n) for put, get, and remove, and keeps keys sorted in ascending order. Provides advanced range query methods for closest key matching.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="ty">TreeMap</span>&lt;<span class="ty">Integer</span>, <span class="ty">String</span>&gt; tm = <span class="kw">new</span> <span class="cl">TreeMap</span>&lt;&gt;();  
+tm.<span class="mt">put</span>(<span class="nm">10</span>, <span class="st">"ten"</span>);  
+tm.<span class="mt">put</span>(<span class="nm">30</span>, <span class="st">"thirty"</span>);  
+tm.<span class="mt">put</span>(<span class="nm">20</span>, <span class="st">"twenty"</span>);  
+  
+<span class="kw">int</span> floor   = tm.<span class="mt">floorKey</span>(<span class="nm">25</span>);    <span class="cm">// 20</span>  
+<span class="kw">int</span> ceiling = tm.<span class="mt">ceilingKey</span>(<span class="nm">25</span>);  <span class="cm">// 30</span>  
+<span class="kw">int</span> first   = tm.<span class="mt">firstKey</span>();       <span class="cm">// 10</span>  
+<span class="kw">int</span> last    = tm.<span class="mt">lastKey</span>();        <span class="cm">// 30</span>  
+  
+<span class="cm">// Custom comparator (reverse order)</span>  
+<span class="ty">TreeMap</span>&lt;<span class="ty">Integer</span>, <span class="ty">String</span>&gt; rev = <span class="kw">new</span> <span class="cl">TreeMap</span>&lt;&gt;(  
+    (a, b) -&gt; <span class="cl">Integer</span>.<span class="mt">compare</span>(b, a)  
+);</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>firstKey / lastKey</td><td>Retrieve lowest / highest key</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>floorKey(k)</td><td>Greatest key ≤ k</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>ceilingKey(k)</td><td>Least key ≥ k</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>lowerKey(k)</td><td>Greatest key &lt; k</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>higherKey(k)</td><td>Least key &gt; k</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Dynamic Schedules</span>  
+        <span class="interview-tag">Custom Multiset (count map)</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::map&lt;K,V&gt;</td><td>TreeMap&lt;K,V&gt;</td><td>Both Red-Black tree-based with sorted keys.</td></tr>  
+          <tr><td>std::multiset&lt;T&gt;</td><td>TreeMap&lt;T, Integer&gt;</td><td>Java has no direct multiset — use TreeMap to track counts.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>No Null Keys:</strong> TreeMap does not allow null keys — throws NullPointerException.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ SORTING ══════════════════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 08</span>  
+  <h2>Sorting Utilities</h2>  
+</div>  
+
+<!-- 19. Comparator -->  
+<div class="topic-card" id="sec19">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">19</span>  
+    <span class="topic-title">Comparator</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>Comparator is a functional interface for defining dynamic, custom sorting logic for collections and arrays. Allows sorting the same class in multiple ways, with sorting logic decoupled from the class definition itself.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Lambda comparator: sort by age ascending</span>  
+<span class="ty">Comparator</span>&lt;<span class="ty">Student</span>&gt; ageCompare =  
+    (s1, s2) -&gt; <span class="cl">Integer</span>.<span class="mt">compare</span>(s1.age, s2.age);  
+  
+<span class="cm">// Multi-field: sort by age, then name on tie</span>  
+<span class="ty">Comparator</span>&lt;<span class="ty">Student</span>&gt; multiCompare = (s1, s2) -&gt; {  
+    <span class="kw">int</span> ageDiff = <span class="cl">Integer</span>.<span class="mt">compare</span>(s1.age, s2.age);  
+    <span class="kw">return</span> ageDiff != <span class="nm">0</span> ? ageDiff : s1.name.<span class="mt">compareTo</span>(s2.name);  
+};  
+  
+<span class="cm">// Invert ordering</span>  
+<span class="ty">Comparator</span>&lt;<span class="ty">Integer</span>&gt; reversed = <span class="cl">Comparator</span>.<span class="mt">naturalOrder</span>().<span class="mt">reversed</span>();  
+  
+<span class="cm">// Chain comparators</span>  
+<span class="ty">Comparator</span>&lt;<span class="ty">Student</span>&gt; chained = ageCompare.<span class="mt">thenComparing</span>(s -&gt; s.name);</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Integer Overflow:</strong> Never use subtraction <code>(a, b) → a - b</code> in comparators — can cause overflow. Use <code>Integer.compare(a, b)</code>.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 20. Comparable -->  
+<div class="topic-card" id="sec20">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">20</span>  
+    <span class="topic-title">Comparable</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>Comparable is an interface implemented by a class to define its natural ordering. Contains a single method <code>compareTo()</code> which compares the current instance with another object. Allows instances to be sorted automatically via <code>Collections.sort()</code>.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">class</span> <span class="cl">Coordinate</span> <span class="kw">implements</span> <span class="ty">Comparable</span>&lt;<span class="cl">Coordinate</span>&gt; {  
+    <span class="kw">int</span> x, y;  
+  
+    <span class="kw">public</span> <span class="cl">Coordinate</span>(<span class="kw">int</span> x, <span class="kw">int</span> y) {  
+        <span class="kw">this</span>.x = x;  
+        <span class="kw">this</span>.y = y;  
+    }  
+  
+    <span class="cm">// Natural sorting: by x ascending, then y ascending</span>  
+    <span class="an">@Override</span>  
+    <span class="kw">public int</span> <span class="mt">compareTo</span>(<span class="cl">Coordinate</span> other) {  
+        <span class="kw">int</span> xDiff = <span class="cl">Integer</span>.<span class="mt">compare</span>(<span class="kw">this</span>.x, other.x);  
+        <span class="kw">return</span> xDiff != <span class="nm">0</span> ? xDiff : <span class="cl">Integer</span>.<span class="mt">compare</span>(<span class="kw">this</span>.y, other.y);  
+    }  
+}</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>bool operator&lt;</td><td>Comparable</td><td>Overloading operator&lt; sets natural ordering in C++; Comparable does the same in Java.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ LAMBDAS ═══════════════════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 09</span>  
+  <h2>Lambda Expressions</h2>  
+</div>  
+
+<div class="topic-card" id="sec21">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">21</span>  
+    <span class="topic-title">Lambda Expressions</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>Lambda expressions introduce functional programming to Java, allowing you to pass anonymous behavior as method arguments. Commonly used to write clean inline comparators for sorting collections or initializing priority queues.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Lambda sorting syntax</span>  
+<span class="ty">List</span>&lt;<span class="ty">Integer</span>&gt; list = <span class="cl">Arrays</span>.<span class="mt">asList</span>(<span class="nm">5</span>, <span class="nm">3</span>, <span class="nm">9</span>);  
+list.<span class="mt">sort</span>((a, b) -&gt; <span class="cl">Integer</span>.<span class="mt">compare</span>(a, b)); <span class="cm">// ascending</span>  
+  
+<span class="cm">// Priority Queue with a lambda comparator (max-heap)</span>  
+<span class="ty">PriorityQueue</span>&lt;<span class="kw">int</span>[]&gt; pq = <span class="kw">new</span> <span class="cl">PriorityQueue</span>&lt;&gt;(  
+    (a, b) -&gt; <span class="cl">Integer</span>.<span class="mt">compare</span>(b[<span class="nm">0</span>], a[<span class="nm">0</span>])  
+);  
+  
+<span class="cm">// Method reference shorthand</span>  
+list.<span class="mt">sort</span>(<span class="cl">Integer</span>::<span class="mt">compare</span>);</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Variable Scope Constraints:</strong> Java lambdas can only reference local variables that are <em>final</em> or <em>effectively final</em>.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ CUSTOM DATA STRUCTURES ════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 10</span>  
+  <h2>Custom Data Structures</h2>  
+</div>  
+
+<!-- 22. Pair -->  
+<div class="topic-card" id="sec22">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">22</span>  
+    <span class="topic-title">Pair Alternatives</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>Unlike C++, Java does not have a generic pair template like <code>std::pair</code>. Options: <code>AbstractMap.SimpleEntry</code>, Java Records, or a lightweight custom class.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Using AbstractMap.SimpleEntry</span>  
+<span class="ty">AbstractMap</span>.<span class="ty">SimpleEntry</span>&lt;<span class="ty">Integer</span>, <span class="ty">String</span>&gt; entry =  
+    <span class="kw">new</span> <span class="ty">AbstractMap</span>.<span class="cl">SimpleEntry</span>&lt;&gt;(<span class="nm">1</span>, <span class="st">"val"</span>);  
+<span class="kw">int</span> key = entry.<span class="mt">getKey</span>();  
+<span class="ty">String</span> val = entry.<span class="mt">getValue</span>();  
+  
+<span class="cm">// Using Java Record (Java 14+)</span>  
+<span class="kw">record</span> <span class="cl">Pair</span>&lt;<span class="ty">K</span>, <span class="ty">V</span>&gt;(<span class="ty">K</span> key, <span class="ty">V</span> value) {}  
+<span class="cl">Pair</span>&lt;<span class="ty">Integer</span>, <span class="ty">String</span>&gt; pair = <span class="kw">new</span> <span class="cl">Pair</span>&lt;&gt;(<span class="nm">1</span>, <span class="st">"val"</span>);  
+  
+<span class="cm">// Using int[] for Dijkstra state [dist, vertex]</span>  
+<span class="kw">int</span>[] state = {<span class="nm">0</span>, startVertex};  
+pq.<span class="mt">offer</span>(state);</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>std::pair&lt;K,V&gt;</td><td>AbstractMap.SimpleEntry&lt;K,V&gt;</td><td>SimpleEntry provides comparable behavior but requires importing utility packages.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 23. Custom Node -->  
+<div class="topic-card" id="sec23">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">23</span>  
+    <span class="topic-title">Custom Node Classes</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Tree Node</span>  
+<span class="kw">class</span> <span class="cl">TreeNode</span> {  
+    <span class="kw">int</span> val;  
+    <span class="cl">TreeNode</span> left, right;  
+    <span class="kw">public</span> <span class="cl">TreeNode</span>(<span class="kw">int</span> val) { <span class="kw">this</span>.val = val; }  
+}  
+  
+<span class="cm">// Graph Node</span>  
+<span class="kw">class</span> <span class="cl">GraphNode</span> {  
+    <span class="kw">int</span> id;  
+    <span class="ty">List</span>&lt;<span class="cl">GraphNode</span>&gt; neighbors = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();  
+    <span class="kw">public</span> <span class="cl">GraphNode</span>(<span class="kw">int</span> id) { <span class="kw">this</span>.id = id; }  
+}  
+  
+<span class="cm">// Dijkstra Node — implements Comparable</span>  
+<span class="kw">class</span> <span class="cl">Node</span> <span class="kw">implements</span> <span class="ty">Comparable</span>&lt;<span class="cl">Node</span>&gt; {  
+    <span class="kw">int</span> vertex, weight;  
+    <span class="kw">public</span> <span class="cl">Node</span>(<span class="kw">int</span> v, <span class="kw">int</span> w) { vertex = v; weight = w; }  
+    <span class="an">@Override</span>  
+    <span class="kw">public int</span> <span class="mt">compareTo</span>(<span class="cl">Node</span> other) {  
+        <span class="kw">return</span> <span class="cl">Integer</span>.<span class="mt">compare</span>(<span class="kw">this</span>.weight, other.weight);  
+    }  
+}</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Trie Structure Layers</span>  
+        <span class="interview-tag">Dijkstra Shortest Paths</span>  
+        <span class="interview-tag">BST / AVL Nodes</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Null Pointer Exception:</strong> Accessing nested variables on a null node (e.g., <code>root.left.val</code> when <code>root.left</code> is null) throws NPE. Always null-check first.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ FAST I/O ══════════════════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 11</span>  
+  <h2>Fast Input / Output</h2>  
+</div>  
+
+<div class="topic-card" id="sec24">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">24</span>  
+    <span class="topic-title">Fast Input Output</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p>Standard input streams cause performance bottlenecks in competitive programming. Using <code>BufferedReader</code> + <code>StringTokenizer</code> is significantly faster than <code>Scanner</code> — reads input in 8KB buffers and avoids heavy regex matching, parsing up to 10× faster.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">static class</span> <span class="cl">FastReader</span> {  
+    <span class="ty">BufferedReader</span> br = <span class="kw">new</span> <span class="cl">BufferedReader</span>(  
+        <span class="kw">new</span> <span class="cl">InputStreamReader</span>(<span class="ty">System</span>.in)  
+    );  
+    <span class="ty">StringTokenizer</span> st;  
+  
+    <span class="ty">String</span> <span class="mt">next</span>() {  
+        <span class="kw">while</span> (st == <span class="kw">null</span> || !st.<span class="mt">hasMoreElements</span>()) {  
+            <span class="kw">try</span> { st = <span class="kw">new</span> <span class="cl">StringTokenizer</span>(br.<span class="mt">readLine</span>()); }  
+            <span class="kw">catch</span> (<span class="ty">IOException</span> e) { e.<span class="mt">printStackTrace</span>(); }  
+        }  
+        <span class="kw">return</span> st.<span class="mt">nextToken</span>();  
+    }  
+  
+    <span class="kw">int</span> <span class="mt">nextInt</span>()   { <span class="kw">return</span> <span class="cl">Integer</span>.<span class="mt">parseInt</span>(<span class="mt">next</span>()); }  
+    <span class="kw">long</span> <span class="mt">nextLong</span>() { <span class="kw">return</span> <span class="cl">Long</span>.<span class="mt">parseLong</span>(<span class="mt">next</span>()); }  
+}  
+  
+<span class="cm">// Fast output using PrintWriter</span>  
+<span class="ty">PrintWriter</span> out = <span class="kw">new</span> <span class="cl">PrintWriter</span>(<span class="kw">new</span> <span class="cl">BufferedWriter</span>(  
+    <span class="kw">new</span> <span class="cl">OutputStreamWriter</span>(<span class="ty">System</span>.out)  
+));  
+<span class="cm">// Important: flush at end!</span>  
+out.<span class="mt">flush</span>();</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">C++ Equivalents</div>  
+      <table class="cpp-table">  
+        <thead><tr><th>C++ STL</th><th>Java</th><th>Notes</th></tr></thead>  
+        <tbody>  
+          <tr><td>ios_base::sync_with_stdio(false); cin.tie(NULL)</td><td>BufferedReader + StringTokenizer</td><td>C++ unsynchronizes standard streams; Java requires separate buffered readers and tokenizers.</td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Buffer Flushes:</strong> Forgetting to call <code>flush()</code> on custom buffered writers can cause truncated or missing outputs.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ UTILITY CLASSES ═══════════════════════════════ -->  
+<div class="section-header">  
+  <span class="section-num">§ 12</span>  
+  <h2>Java Utility Classes</h2>  
+</div>  
+
+<!-- 25. Arrays Utility -->  
+<div class="topic-card" id="sec25">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">25</span>  
+    <span class="topic-title">Arrays Utility Class</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p><code>java.util.Arrays</code> contains static helper methods for sorting, searching, copying, and comparing arrays. Final utility class — cannot be instantiated.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">int</span>[] data = {<span class="nm">5</span>, <span class="nm">2</span>, <span class="nm">8</span>, <span class="nm">1</span>};  
+<span class="cl">Arrays</span>.<span class="mt">sort</span>(data);                          <span class="cm">// [1, 2, 5, 8]</span>  
+<span class="kw">int</span> idx = <span class="cl">Arrays</span>.<span class="mt">binarySearch</span>(data, <span class="nm">5</span>);    <span class="cm">// 2</span>  
+<span class="cl">Arrays</span>.<span class="mt">fill</span>(data, <span class="nm">0</span>);                      <span class="cm">// [0, 0, 0, 0]</span>  
+<span class="kw">int</span>[] copy = <span class="cl">Arrays</span>.<span class="mt">copyOf</span>(data, <span class="nm">6</span>);       <span class="cm">// pads with 0s</span>  
+<span class="kw">int</span>[] sub  = <span class="cl">Arrays</span>.<span class="mt">copyOfRange</span>(data, <span class="nm">1</span>, <span class="nm">3</span>);  
+<span class="ty">String</span> s   = <span class="cl">Arrays</span>.<span class="mt">toString</span>(data);         <span class="cm">// "[0, 0, 0, 0]"</span>  
+<span class="kw">boolean</span> eq = <span class="cl">Arrays</span>.<span class="mt">equals</span>(data, copy);  
+  
+<span class="cm">// 2D array string representation</span>  
+<span class="ty">String</span> grid = <span class="cl">Arrays</span>.<span class="mt">deepToString</span>(matrix);</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>Arrays.sort(arr)</td><td>Sort elements in-place</td><td><span class="cx cx-olog">O(n log n)</span></td></tr>  
+          <tr><td>Arrays.fill(arr, val)</td><td>Assign default values</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Arrays.binarySearch(arr, key)</td><td>Search sorted array</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+          <tr><td>Arrays.copyOf(arr, len)</td><td>Duplicate array</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Arrays.copyOfRange(arr, l, r)</td><td>Copy subarray range</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Arrays.equals(a1, a2)</td><td>Structural equality check</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Arrays.deepEquals(a1, a2)</td><td>Multi-dimensional check</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Arrays.asList(elements)</td><td>Convert to List view</td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 26. Collections Algorithms -->  
+<div class="topic-card" id="sec26">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">26</span>  
+    <span class="topic-title">Collections Utility Algorithms</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p><code>java.util.Collections</code> contains static helper methods operating on collection objects. Cannot be instantiated (private constructor).</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="ty">List</span>&lt;<span class="ty">Integer</span>&gt; values = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;(<span class="cl">Arrays</span>.<span class="mt">asList</span>(<span class="nm">3</span>, <span class="nm">1</span>, <span class="nm">4</span>));  
+  
+<span class="cl">Collections</span>.<span class="mt">sort</span>(values);          <span class="cm">// ascending sort</span>  
+<span class="cl">Collections</span>.<span class="mt">reverse</span>(values);       <span class="cm">// invert order</span>  
+<span class="cl">Collections</span>.<span class="mt">shuffle</span>(values);       <span class="cm">// random permutation</span>  
+<span class="cl">Collections</span>.<span class="mt">swap</span>(values, <span class="nm">0</span>, <span class="nm">2</span>);   <span class="cm">// swap elements</span>  
+<span class="cl">Collections</span>.<span class="mt">rotate</span>(values, <span class="nm">1</span>);    <span class="cm">// rotate right by 1</span>  
+<span class="kw">int</span> max = <span class="cl">Collections</span>.<span class="mt">max</span>(values);  <span class="cm">// 4</span>  
+<span class="kw">int</span> min = <span class="cl">Collections</span>.<span class="mt">min</span>(values);  <span class="cm">// 1</span>  
+<span class="kw">int</span> freq = <span class="cl">Collections</span>.<span class="mt">frequency</span>(values, <span class="nm">3</span>);</code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Common Operations</div>  
+      <table class="ops-table">  
+        <thead><tr><th>Method</th><th>Purpose</th><th>Complexity</th></tr></thead>  
+        <tbody>  
+          <tr><td>Collections.sort(list)</td><td>Sort list ascending</td><td><span class="cx cx-olog">O(n log n)</span></td></tr>  
+          <tr><td>Collections.reverse(list)</td><td>Invert element order</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Collections.swap(list, i, j)</td><td>Swap two elements</td><td><span class="cx cx-o1">O(1)</span></td></tr>  
+          <tr><td>Collections.max/min(coll)</td><td>Get max/min element</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Collections.frequency(coll, e)</td><td>Count element occurrences</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Collections.shuffle(list)</td><td>Randomly shuffle</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Collections.fill(list, val)</td><td>Overwrite all elements</td><td><span class="cx cx-on">O(n)</span></td></tr>  
+          <tr><td>Collections.binarySearch(l, k)</td><td>Binary search sorted list</td><td><span class="cx cx-olog">O(log n)</span></td></tr>  
+        </tbody>  
+      </table>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 27. Math Utility -->  
+<div class="topic-card" id="sec27">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">27</span>  
+    <span class="topic-title">Math Utility Class</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cl">Math</span>.<span class="mt">abs</span>(-<span class="nm">5</span>)         <span class="cm">// 5</span>  
+<span class="cl">Math</span>.<span class="mt">max</span>(<span class="nm">3</span>, <span class="nm">7</span>)        <span class="cm">// 7</span>  
+<span class="cl">Math</span>.<span class="mt">min</span>(<span class="nm">3</span>, <span class="nm">7</span>)        <span class="cm">// 3</span>  
+<span class="cl">Math</span>.<span class="mt">pow</span>(<span class="nm">2</span>, <span class="nm">10</span>)       <span class="cm">// 1024.0</span>  
+<span class="cl">Math</span>.<span class="mt">sqrt</span>(<span class="nm">16</span>)         <span class="cm">// 4.0</span>  
+<span class="cl">Math</span>.<span class="mt">ceil</span>(<span class="nm">5.1</span>)        <span class="cm">// 6.0</span>  
+<span class="cl">Math</span>.<span class="mt">floor</span>(<span class="nm">5.9</span>)       <span class="cm">// 5.0</span>  
+<span class="cl">Math</span>.<span class="mt">round</span>(<span class="nm">5.5</span>)       <span class="cm">// 6</span>  
+<span class="cl">Math</span>.<span class="mt">log10</span>(<span class="nm">1000</span>)      <span class="cm">// 3.0</span>  
+<span class="cl">Math</span>.<span class="mt">log</span>(<span class="cl">Math</span>.E)       <span class="cm">// 1.0 (natural log)</span></code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Float Inaccuracies:</strong> Floating-point operations accumulate precision errors. Never use <code>==</code> on doubles — use an epsilon tolerance instead.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<!-- 28. Objects Utility -->  
+<div class="topic-card" id="sec28">  
+  <div class="topic-card-header" onclick="toggleCard(this)">  
+    <span class="topic-index">28</span>  
+    <span class="topic-title">Objects Utility Class</span>  
+    <span class="topic-toggle">▼</span>  
+  </div>  
+  <div class="topic-body collapsible" style="max-height:9999px">  
+    <div class="subsection">  
+      <div class="subsection-label">Description</div>  
+      <p><code>java.util.Objects</code> contains static helper methods for object validation, comparisons, and null-safe operations. Simplifies argument validation in constructors and prevents NullPointerException errors.</p>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Java Syntax</div>  
+      <div class="code-wrap">  
+        <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="cm">// Null-safe equals</span>  
+<span class="kw">boolean</span> match = <span class="cl">Objects</span>.<span class="mt">equals</span>(s1, s2);  
+  
+<span class="cm">// Safe hash generation (handles nulls)</span>  
+<span class="kw">int</span> hash = <span class="cl">Objects</span>.<span class="mt">hash</span>(x, y);  
+  
+<span class="cm">// Null checks</span>  
+<span class="kw">boolean</span> isNull = <span class="cl">Objects</span>.<span class="mt">isNull</span>(obj);  
+<span class="kw">boolean</span> nonNull = <span class="cl">Objects</span>.<span class="mt">nonNull</span>(obj);  
+  
+<span class="cm">// Throws NPE with message if null</span>  
+<span class="cl">Objects</span>.<span class="mt">requireNonNull</span>(param, <span class="st">"param must not be null"</span>);  
+  
+<span class="cm">// Index boundary validation</span>  
+<span class="cl">Objects</span>.<span class="mt">checkIndex</span>(idx, len); <span class="cm">// throws IndexOutOfBoundsException</span></code></pre>  </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Interview Usage</div>  
+      <div class="interview-list">  
+        <span class="interview-tag">Null-Safe Key Comparison</span>  
+        <span class="interview-tag">Composite Key Hashing</span>  
+      </div>  
+    </div>  
+    <div class="subsection">  
+      <div class="subsection-label">Pitfalls</div>  
+      <ul class="pitfall-list">  
+        <li><span class="pitfall-icon">⚠</span><span><strong>Varargs Allocation:</strong> <code>Objects.hash()</code> creates a temporary varargs array — avoid in high-frequency loops.</span></li>  
+      </ul>  
+    </div>  
+  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ SECTION 13: DSA PATTERNS ══════════════════════ -->  
+<div class="section-header" id="sec-patterns">  
+  <span class="section-num">§ 13</span>  
+  <h2>DSA Interview Patterns</h2>  
+</div>  
+
+<div class="pattern-section">  
+  <div class="pattern-title">Frequency Map</div>  
+  <div class="code-wrap pattern-code">  
+    <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">public static</span> <span class="ty">Map</span>&lt;<span class="ty">Integer</span>, <span class="ty">Integer</span>&gt; <span class="mt">buildFreqMap</span>(<span class="kw">int</span>[] nums) {  
+    <span class="ty">Map</span>&lt;<span class="ty">Integer</span>, <span class="ty">Integer</span>&gt; freqMap = <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();  
+    <span class="kw">for</span> (<span class="kw">int</span> num : nums) {  
+        freqMap.<span class="mt">put</span>(num, freqMap.<span class="mt">getOrDefault</span>(num, <span class="nm">0</span>) + <span class="nm">1</span>);  
+    }  
+    <span class="kw">return</span> freqMap;  
+}</code></pre>  </div>  
+</div>  
+
+<div class="pattern-section">  
+  <div class="pattern-title">Prefix Sum</div>  
+  <div class="code-wrap pattern-code">  
+    <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">public static int</span>[] <span class="mt">buildPrefixSum</span>(<span class="kw">int</span>[] nums) {  
+    <span class="kw">int</span> n = nums.length;  
+    <span class="kw">int</span>[] prefix = <span class="kw">new int</span>[n + <span class="nm">1</span>];  
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; n; i++) {  
+        prefix[i + <span class="nm">1</span>] = prefix[i] + nums[i];  
+    }  
+    <span class="kw">return</span> prefix; <span class="cm">// prefix[r+1] - prefix[l] yields sum of range [l, r]</span>  
+}</code></pre>  </div>  
+</div>  
+
+<div class="pattern-section">  
+  <div class="pattern-title">Sliding Window (Monotonic Deque)</div>  
+  <div class="code-wrap pattern-code">  
+    <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">public static int</span>[] <span class="mt">maxSlidingWindow</span>(<span class="kw">int</span>[] nums, <span class="kw">int</span> k) {  
+    <span class="kw">int</span> n = nums.length;  
+    <span class="kw">int</span>[] result = <span class="kw">new int</span>[n - k + <span class="nm">1</span>];  
+    <span class="ty">Deque</span>&lt;<span class="ty">Integer</span>&gt; dq = <span class="kw">new</span> <span class="cl">ArrayDeque</span>&lt;&gt;(); <span class="cm">// monotonic queue of indices</span>  
+  
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; n; i++) {  
+        <span class="cm">// Evict indices that have fallen outside the window</span>  
+        <span class="kw">if</span> (!dq.<span class="mt">isEmpty</span>() &amp;&amp; dq.<span class="mt">peekFirst</span>() &lt; i - k + <span class="nm">1</span>)  
+            dq.<span class="mt">pollFirst</span>();  
+  
+        <span class="cm">// Maintain decreasing monotonic order</span>  
+        <span class="kw">while</span> (!dq.<span class="mt">isEmpty</span>() &amp;&amp; nums[dq.<span class="mt">peekLast</span>()] &lt; nums[i])  
+            dq.<span class="mt">pollLast</span>();  
+  
+        dq.<span class="mt">addLast</span>(i);  
+  
+        <span class="cm">// Record the window's maximum</span>  
+        <span class="kw">if</span> (i &gt;= k - <span class="nm">1</span>) result[i - k + <span class="nm">1</span>] = nums[dq.<span class="mt">peekFirst</span>()];  
+    }  
+    <span class="kw">return</span> result;  
+}</code></pre>  </div>  
+</div>  
+
+<div class="pattern-section">  
+  <div class="pattern-title">Monotonic Stack (Next Greater Element)</div>  
+  <div class="code-wrap pattern-code">  
+    <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">public static int</span>[] <span class="mt">nextGreaterElement</span>(<span class="kw">int</span>[] nums) {  
+    <span class="kw">int</span> n = nums.length;  
+    <span class="kw">int</span>[] result = <span class="kw">new int</span>[n];  
+    <span class="cl">Arrays</span>.<span class="mt">fill</span>(result, -<span class="nm">1</span>);  
+    <span class="ty">Deque</span>&lt;<span class="ty">Integer</span>&gt; stack = <span class="kw">new</span> <span class="cl">ArrayDeque</span>&lt;&gt;();  
+  
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; n; i++) {  
+        <span class="cm">// Pop elements smaller than the current value</span>  
+        <span class="kw">while</span> (!stack.<span class="mt">isEmpty</span>() &amp;&amp; nums[stack.<span class="mt">peek</span>()] &lt; nums[i])  
+            result[stack.<span class="mt">pop</span>()] = nums[i];  
+        stack.<span class="mt">push</span>(i);  
+    }  
+    <span class="kw">return</span> result;  
+}</code></pre>  </div>  
+</div>  
+
+<div class="pattern-section">  
+  <div class="pattern-title">BFS (Graph)</div>  
+  <div class="code-wrap pattern-code">  
+    <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">public static</span> <span class="ty">List</span>&lt;<span class="ty">Integer</span>&gt; <span class="mt">traverseBFS</span>(<span class="kw">int</span> start,  
+        <span class="ty">List</span>&lt;<span class="ty">List</span>&lt;<span class="ty">Integer</span>&gt;&gt; adj, <span class="kw">int</span> vertices) {  
+    <span class="ty">List</span>&lt;<span class="ty">Integer</span>&gt; order = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();  
+    <span class="kw">boolean</span>[] visited = <span class="kw">new boolean</span>[vertices];  
+    <span class="ty">Queue</span>&lt;<span class="ty">Integer</span>&gt; queue = <span class="kw">new</span> <span class="cl">ArrayDeque</span>&lt;&gt;();  
+    visited[start] = <span class="kw">true</span>;  
+    queue.<span class="mt">offer</span>(start);  
+  
+    <span class="kw">while</span> (!queue.<span class="mt">isEmpty</span>()) {  
+        <span class="kw">int</span> curr = queue.<span class="mt">poll</span>();  
+        order.<span class="mt">add</span>(curr);  
+        <span class="kw">for</span> (<span class="kw">int</span> neighbor : adj.<span class="mt">get</span>(curr)) {  
+            <span class="kw">if</span> (!visited[neighbor]) {  
+                visited[neighbor] = <span class="kw">true</span>;  
+                queue.<span class="mt">offer</span>(neighbor);  
+            }  
+        }  
+    }  
+    <span class="kw">return</span> order;  
+}</code></pre>  </div>  
+</div>  
+
+<div class="pattern-section">  
+  <div class="pattern-title">Dijkstra's Shortest Path</div>  
+  <div class="code-wrap pattern-code">  
+    <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">static class</span> <span class="cl">Node</span> <span class="kw">implements</span> <span class="ty">Comparable</span>&lt;<span class="cl">Node</span>&gt; {  
+    <span class="kw">int</span> vertex, weight;  
+    <span class="kw">public</span> <span class="cl">Node</span>(<span class="kw">int</span> v, <span class="kw">int</span> w) { vertex = v; weight = w; }  
+    <span class="an">@Override</span>  
+    <span class="kw">public int</span> <span class="mt">compareTo</span>(<span class="cl">Node</span> o) { <span class="kw">return</span> <span class="cl">Integer</span>.<span class="mt">compare</span>(weight, o.weight); }  
+}  
+  
+<span class="kw">public static int</span>[] <span class="mt">dijkstra</span>(<span class="kw">int</span> start,  
+        <span class="ty">List</span>&lt;<span class="ty">List</span>&lt;<span class="cl">Node</span>&gt;&gt; adj, <span class="kw">int</span> vertices) {  
+    <span class="kw">int</span>[] dist = <span class="kw">new int</span>[vertices];  
+    <span class="cl">Arrays</span>.<span class="mt">fill</span>(dist, <span class="cl">Integer</span>.MAX_VALUE);  
+    dist[start] = <span class="nm">0</span>;  
+  
+    <span class="ty">PriorityQueue</span>&lt;<span class="cl">Node</span>&gt; pq = <span class="kw">new</span> <span class="cl">PriorityQueue</span>&lt;&gt;();  
+    pq.<span class="mt">offer</span>(<span class="kw">new</span> <span class="cl">Node</span>(start, <span class="nm">0</span>));  
+  
+    <span class="kw">while</span> (!pq.<span class="mt">isEmpty</span>()) {  
+        <span class="cl">Node</span> curr = pq.<span class="mt">poll</span>();  
+        <span class="kw">int</span> u = curr.vertex;  
+        <span class="kw">if</span> (curr.weight &gt; dist[u]) <span class="kw">continue</span>; <span class="cm">// stale entry</span>  
+  
+        <span class="kw">for</span> (<span class="cl">Node</span> edge : adj.<span class="mt">get</span>(u)) {  
+            <span class="kw">int</span> v = edge.vertex, w = edge.weight;  
+            <span class="kw">if</span> (dist[u] + w &lt; dist[v]) {  
+                dist[v] = dist[u] + w;  
+                pq.<span class="mt">offer</span>(<span class="kw">new</span> <span class="cl">Node</span>(v, dist[v]));  
+            }  
+        }  
+    }  
+    <span class="kw">return</span> dist;  
+}</code></pre>  </div>  
+</div>  
+
+<div class="pattern-section">  
+  <div class="pattern-title">Topological Sort — Kahn's Algorithm</div>  
+  <div class="code-wrap pattern-code">  
+    <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">public static int</span>[] <span class="mt">kahnTopologicalSort</span>(<span class="kw">int</span> n,  
+        <span class="ty">List</span>&lt;<span class="ty">List</span>&lt;<span class="ty">Integer</span>&gt;&gt; adj) {  
+    <span class="kw">int</span>[] inDegree = <span class="kw">new int</span>[n];  
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; n; i++)  
+        <span class="kw">for</span> (<span class="kw">int</span> nb : adj.<span class="mt">get</span>(i)) inDegree[nb]++;  
+  
+    <span class="ty">Queue</span>&lt;<span class="ty">Integer</span>&gt; q = <span class="kw">new</span> <span class="cl">ArrayDeque</span>&lt;&gt;();  
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; n; i++)  
+        <span class="kw">if</span> (inDegree[i] == <span class="nm">0</span>) q.<span class="mt">offer</span>(i);  
+  
+    <span class="kw">int</span>[] order = <span class="kw">new int</span>[n];  
+    <span class="kw">int</span> idx = <span class="nm">0</span>;  
+    <span class="kw">while</span> (!q.<span class="mt">isEmpty</span>()) {  
+        <span class="kw">int</span> node = q.<span class="mt">poll</span>();  
+        order[idx++] = node;  
+        <span class="kw">for</span> (<span class="kw">int</span> nb : adj.<span class="mt">get</span>(node))  
+            <span class="kw">if</span> (--inDegree[nb] == <span class="nm">0</span>) q.<span class="mt">offer</span>(nb);  
+    }  
+    <span class="kw">return</span> idx == n ? order : <span class="kw">new int</span>[<span class="nm">0</span>]; <span class="cm">// empty if cycle</span>  
+}</code></pre>  </div>  
+</div>  
+
+<div class="pattern-section">  
+  <div class="pattern-title">Union Find (Disjoint Set Union)</div>  
+  <div class="code-wrap pattern-code">  
+    <div class="code-header"><div class="code-dots"><span></span><span></span><span></span></div><span class="lang-tag">Java</span></div>
+
+<pre><code><span class="kw">class</span> <span class="cl">UnionFind</span> {  
+    <span class="kw">private final int</span>[] parent, rank;  
+  
+    <span class="kw">public</span> <span class="cl">UnionFind</span>(<span class="kw">int</span> size) {  
+        parent = <span class="kw">new int</span>[size];  
+        rank = <span class="kw">new int</span>[size];  
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; size; i++) parent[i] = i;  
+    }  
+  
+    <span class="cm">// Path compression</span>  
+    <span class="kw">public int</span> <span class="mt">find</span>(<span class="kw">int</span> i) {  
+        <span class="kw">if</span> (parent[i] != i) parent[i] = <span class="mt">find</span>(parent[i]);  
+        <span class="kw">return</span> parent[i];  
+    }  
+  
+    <span class="cm">// Union by rank</span>  
+    <span class="kw">public boolean</span> <span class="mt">union</span>(<span class="kw">int</span> i, <span class="kw">int</span> j) {  
+        <span class="kw">int</span> ri = <span class="mt">find</span>(i), rj = <span class="mt">find</span>(j);  
+        <span class="kw">if</span> (ri == rj) <span class="kw">return false</span>;  
+        <span class="kw">if</span> (rank[ri] &gt; rank[rj]) parent[rj] = ri;  
+        <span class="kw">else if</span> (rank[ri] &lt; rank[rj]) parent[ri] = rj;  
+        <span class="kw">else</span> { parent[rj] = ri; rank[ri]++; }  
+        <span class="kw">return true</span>;  
+    }  
+}</code></pre>  </div>  
+</div>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ SECTION 14: C++ → JAVA CHEAT SHEET ════════════ -->  
+<div class="section-header" id="sec-cheatsheet">  
+  <span class="section-num">§ 14</span>  
+  <h2>C++ STL → Java Cheat Sheet</h2>  
+</div>  
+
+<table class="cheat-table">  
+  <thead>  
+    <tr>  
+      <th>C++ STL Container</th>  
+      <th>Java Equivalent</th>  
+      <th>Notes</th>  
+      <th>Complexity</th>  
+    </tr>  
+  </thead>  
+  <tbody>  
+    <tr><td>std::vector&lt;T&gt;</td><td>ArrayList&lt;T&gt;</td><td>Resizes automatically (factor of 1.5)</td><td>Append: O(1) amortized; Access: O(1)</td></tr>  
+    <tr><td>std::list&lt;T&gt;</td><td>LinkedList&lt;T&gt;</td><td>Doubly-linked node chain; high memory overhead</td><td>Ends Add/Remove: O(1); Access: O(n)</td></tr>  
+    <tr><td>std::deque&lt;T&gt;</td><td>ArrayDeque&lt;T&gt;</td><td>Circular array; no null elements allowed</td><td>Ends Add/Remove: O(1)</td></tr>  
+    <tr><td>std::stack&lt;T&gt;</td><td>ArrayDeque&lt;T&gt;</td><td>Use ArrayDeque over legacy Stack</td><td>Push/Pop: O(1)</td></tr>  
+    <tr><td>std::queue&lt;T&gt;</td><td>ArrayDeque&lt;T&gt;</td><td>C++ is adapter; Java is interface</td><td>Offer/Poll: O(1)</td></tr>  
+    <tr><td>std::priority_queue&lt;T&gt;</td><td>PriorityQueue&lt;T&gt;</td><td>C++ defaults max-heap; Java defaults min-heap</td><td>Push/Pop: O(log n); Top: O(1)</td></tr>  
+    <tr><td>std::unordered_set&lt;T&gt;</td><td>HashSet&lt;T&gt;</td><td>Unordered hash table set</td><td>Add/Contains: O(1)</td></tr>  
+    <tr><td>std::set&lt;T&gt;</td><td>TreeSet&lt;T&gt;</td><td>Sorted set backed by Red-Black Tree</td><td>Add/Contains: O(log n)</td></tr>  
+    <tr><td>std::unordered_map&lt;K,V&gt;</td><td>HashMap&lt;K,V&gt;</td><td>Hash table map; Java 8+ treeification</td><td>Put/Get: O(1)</td></tr>  
+    <tr><td>std::map&lt;K,V&gt;</td><td>TreeMap&lt;K,V&gt;</td><td>Sorted map backed by Red-Black Tree</td><td>Put/Get: O(log n)</td></tr>  
+    <tr><td>std::multiset&lt;T&gt;</td><td>TreeMap&lt;T, Integer&gt;</td><td>No direct equivalent — use count map</td><td>Add/Remove: O(log n)</td></tr>  
+    <tr><td>std::string</td><td>String / StringBuilder</td><td>Java String is immutable; use StringBuilder for mutation</td><td>Append: O(1) amortized</td></tr>  
+    <tr><td>template&lt;typename T&gt;</td><td>Generic &lt;T&gt;</td><td>C++ generates unique code per type; Java uses type erasure</td><td>—</td></tr>  
+    <tr><td>std::pair&lt;K,V&gt;</td><td>AbstractMap.SimpleEntry&lt;K,V&gt;</td><td>No built-in pair; use SimpleEntry or records</td><td>O(1)</td></tr>  
+    <tr><td>ios_base::sync_with_stdio(false)</td><td>BufferedReader + StringTokenizer</td><td>Fast I/O equivalent</td><td>—</td></tr>  
+  </tbody>  
+</table>  
+
+<div class="section-divider"></div>  
+
+<!-- ══ SECTION 15: 100+ METHODS ══════════════════════ -->  
+<div class="section-header" id="sec-methods">  
+  <span class="section-num">§ 15</span>  
+  <h2>100+ Java Methods Quick Reference</h2>  
+</div>  
+
+<!-- String -->  
+<div class="qref-group">  
+  <div class="qref-group-title">String</div>  
+  <table class="qref-table">  
+    <thead><tr><th>Method</th><th>Syntax</th><th>Complexity</th><th>Usage</th></tr></thead>  
+    <tbody>  
+      <tr><td>length</td><td>s.length()</td><td><span class="cx cx-o1">O(1)</span></td><td>Get character count</td></tr>  
+      <tr><td>charAt</td><td>s.charAt(i)</td><td><span class="cx cx-o1">O(1)</span></td><td>Get character at index</td></tr>  
+      <tr><td>substring</td><td>s.substring(start, end)</td><td><span class="cx cx-on">O(n)</span></td><td>Extract segment</td></tr>  
+      <tr><td>indexOf</td><td>s.indexOf(sub)</td><td><span class="cx cx-onm">O(n·m)</span></td><td>Find first occurrence</td></tr>  
+      <tr><td>lastIndexOf</td><td>s.lastIndexOf(sub)</td><td><span class="cx cx-onm">O(n·m)</span></td><td>Find last occurrence</td></tr>  
+      <tr><td>contains</td><td>s.contains(sub)</td><td><span class="cx cx-onm">O(n·m)</span></td><td>Substring search</td></tr>  
+      <tr><td>startsWith</td><td>s.startsWith(pref)</td><td><span class="cx cx-o1">O(k)</span></td><td>Prefix check</td></tr>  
+      <tr><td>endsWith</td><td>s.endsWith(suff)</td><td><span class="cx cx-o1">O(k)</span></td><td>Suffix check</td></tr>  
+      <tr><td>equals</td><td>s.equals(other)</td><td><span class="cx cx-on">O(n)</span></td><td>Value equality check</td></tr>  
+      <tr><td>equalsIgnoreCase</td><td>s.equalsIgnoreCase(other)</td><td><span class="cx cx-on">O(n)</span></td><td>Case-insensitive match</td></tr>  
+      <tr><td>compareTo</td><td>s.compareTo(other)</td><td><span class="cx cx-on">O(n)</span></td><td>Lexicographical compare</td></tr>  
+      <tr><td>split</td><td>s.split(regex)</td><td><span class="cx cx-on">O(n)</span></td><td>Split by delimiter</td></tr>  
+      <tr><td>replace</td><td>s.replace(old, new)</td><td><span class="cx cx-on">O(n)</span></td><td>Replace characters</td></tr>  
+      <tr><td>toLowerCase</td><td>s.toLowerCase()</td><td><span class="cx cx-on">O(n)</span></td><td>Convert to lowercase</td></tr>  
+      <tr><td>toUpperCase</td><td>s.toUpperCase()</td><td><span class="cx cx-on">O(n)</span></td><td>Convert to uppercase</td></tr>  
+      <tr><td>trim</td><td>s.trim()</td><td><span class="cx cx-on">O(n)</span></td><td>Strip whitespace</td></tr>  
+      <tr><td>toCharArray</td><td>s.toCharArray()</td><td><span class="cx cx-on">O(n)</span></td><td>Convert to char array</td></tr>  
+      <tr><td>isEmpty</td><td>s.isEmpty()</td><td><span class="cx cx-o1">O(1)</span></td><td>Check if empty</td></tr>  
+    </tbody>  
+  </table>  
+</div>  
+
+<!-- StringBuilder -->  
+<div class="qref-group">  
+  <div class="qref-group-title">StringBuilder</div>  
+  <table class="qref-table">  
+    <thead><tr><th>Method</th><th>Syntax</th><th>Complexity</th><th>Usage</th></tr></thead>  
+    <tbody>  
+      <tr><td>append</td><td>sb.append(data)</td><td><span class="cx cx-o1">O(1) amortized</span></td><td>Append text</td></tr>  
+      <tr><td>insert</td><td>sb.insert(idx, data)</td><td><span class="cx cx-on">O(n)</span></td><td>Insert text</td></tr>  
+      <tr><td>delete</td><td>sb.delete(start, end)</td><td><span class="cx cx-on">O(n)</span></td><td>Delete segment</td></tr>  
+      <tr><td>deleteCharAt</td><td>sb.deleteCharAt(idx)</td><td><span class="cx cx-on">O(n)</span></td><td>Delete single character</td></tr>  
+      <tr><td>setCharAt</td><td>sb.setCharAt(idx, c)</td><td><span class="cx cx-o1">O(1)</span></td><td>Update character</td></tr>  
+      <tr><td>reverse</td><td>sb.reverse()</td><td><span class="cx cx-on">O(n)</span></td><td>Reverse sequence</td></tr>  
+      <tr><td>toString</td><td>sb.toString()</td><td><span class="cx cx-on">O(n)</span></td><td>Convert to String</td></tr>  
+      <tr><td>length</td><td>sb.length()</td><td><span class="cx cx-o1">O(1)</span></td><td>Get length</td></tr>  
+      <tr><td>charAt</td><td>sb.charAt(idx)</td><td><span class="cx cx-o1">O(1)</span></td><td>Get character at index</td></tr>  
+      <tr><td>substring</td><td>sb.substring(start, end)</td><td><span class="cx cx-on">O(n)</span></td><td>Substring copy</td></tr>  
+      <tr><td>setLength</td><td>sb.setLength(len)</td><td><span class="cx cx-o1">O(1)</span></td><td>Resize buffer</td></tr>  
+    </tbody>  
+  </table>  
+</div>  
+
+<!-- List -->  
+<div class="qref-group">  
+  <div class="qref-group-title">List (ArrayList)</div>  
+  <table class="qref-table">  
+    <thead><tr><th>Method</th><th>Syntax</th><th>Complexity</th><th>Usage</th></tr></thead>  
+    <tbody>  
+      <tr><td>add</td><td>list.add(e)</td><td><span class="cx cx-o1">O(1) amortized</span></td><td>Append element</td></tr>  
+      <tr><td>add(idx)</td><td>list.add(idx, e)</td><td><span class="cx cx-on">O(n)</span></td><td>Insert at index</td></tr>  
+      <tr><td>get</td><td>list.get(idx)</td><td><span class="cx cx-o1">O(1)</span></td><td>Retrieve element</td></tr>  
+      <tr><td>set</td><td>list.set(idx, e)</td><td><span class="cx cx-o1">O(1)</span></td><td>Update element</td></tr>  
+      <tr><td>remove</td><td>list.remove(idx)</td><td><span class="cx cx-on">O(n)</span></td><td>Delete element</td></tr>  
+      <tr><td>size</td><td>list.size()</td><td><span class="cx cx-o1">O(1)</span></td><td>Get size</td></tr>  
+      <tr><td>contains</td><td>list.contains(e)</td><td><span class="cx cx-on">O(n)</span></td><td>Linear scan check</td></tr>  
+      <tr><td>indexOf</td><td>list.indexOf(e)</td><td><span class="cx cx-on">O(n)</span></td><td>Find element index</td></tr>  
+      <tr><td>isEmpty</td><td>list.isEmpty()</td><td><span class="cx cx-o1">O(1)</span></td><td>Check if empty</td></tr>  
+      <tr><td>clear</td><td>list.clear()</td><td><span class="cx cx-on">O(n)</span></td><td>Delete all elements</td></tr>  
+      <tr><td>subList</td><td>list.subList(l, r)</td><td><span class="cx cx-o1">O(1)</span></td><td>Get sublist view</td></tr>  
+      <tr><td>addAll</td><td>list.addAll(coll)</td><td><span class="cx cx-on">O(n)</span></td><td>Append collection</td></tr>  
+      <tr><td>sort</td><td>list.sort(comparator)</td><td><span class="cx cx-olog">O(n log n)</span></td><td>Sort list in-place</td></tr>  
+    </tbody>  
+  </table>  
+</div>  
+
+<!-- Map -->  
+<div class="qref-group">  
+  <div class="qref-group-title">Map (HashMap)</div>  
+  <table class="qref-table">  
+    <thead><tr><th>Method</th><th>Syntax</th><th>Complexity</th><th>Usage</th></tr></thead>  
+    <tbody>  
+      <tr><td>put</td><td>map.put(k, v)</td><td><span class="cx cx-o1">O(1) avg</span></td><td>Insert/update pair</td></tr>  
+      <tr><td>get</td><td>map.get(k)</td><td><span class="cx cx-o1">O(1) avg</span></td><td>Retrieve value</td></tr>  
+      <tr><td>getOrDefault</td><td>map.getOrDefault(k, def)</td><td><span class="cx cx-o1">O(1) avg</span></td><td>Safe lookup</td></tr>  
+      <tr><td>containsKey</td><td>map.containsKey(k)</td><td><span class="cx cx-o1">O(1) avg</span></td><td>Key lookup check</td></tr>  
+      <tr><td>containsValue</td><td>map.containsValue(v)</td><td><span class="cx cx-on">O(n)</span></td><td>Value search</td></tr>  
+      <tr><td>remove</td><td>map.remove(k)</td><td><span class="cx cx-o1">O(1) avg</span></td><td>Delete entry</td></tr>  
+      <tr><td>putIfAbsent</td><td>map.putIfAbsent(k, v)</td><td><span class="cx cx-o1">O(1) avg</span></td><td>Safe insert</td></tr>  
+      <tr><td>computeIfAbsent</td><td>map.computeIfAbsent(k, f)</td><td><span class="cx cx-o1">O(1) avg</span></td><td>Lazy init</td></tr>  
+      <tr><td>keySet</td><td>map.keySet()</td><td><span class="cx cx-o1">O(1)</span></td><td>Get all keys</td></tr>  
+      <tr><td>values</td><td>map.values()</td><td><span class="cx cx-o1">O(1)</span></td><td>Get all values</td></tr>  
+      <tr><td>entrySet</td><td>map.entrySet()</td><td><span class="cx cx-o1">O(1)</span></td><td>Get all entries</td></tr>  
+      <tr><td>size</td><td>map.size()</td><td><span class="cx cx-o1">O(1)</span></td><td>Get size</td></tr>  
+      <tr><td>replace</td><td>map.replace(k, v)</td><td><span class="cx cx-o1">O(1) avg</span></td><td>Replace value</td></tr>  
+    </tbody>  
+  </table>  
+</div>  
+
+<!-- Deque -->  
+<div class="qref-group">  
+  <div class="qref-group-title">Deque (ArrayDeque)</div>  
+  <table class="qref-table">  
+    <thead><tr><th>Method</th><th>Syntax</th><th>Complexity</th><th>Usage</th></tr></thead>  
+    <tbody>  
+      <tr><td>addFirst</td><td>dq.addFirst(e)</td><td><span class="cx cx-o1">O(1)</span></td><td>Insert at front</td></tr>  
+      <tr><td>addLast</td><td>dq.addLast(e)</td><td><span class="cx cx-o1">O(1)</span></td><td>Insert at rear</td></tr>  
+      <tr><td>offerFirst</td><td>dq.offerFirst(e)</td><td><span class="cx cx-o1">O(1)</span></td><td>Safe insert at front</td></tr>  
+      <tr><td>offerLast</td><td>dq.offerLast(e)</td><td><span class="cx cx-o1">O(1)</span></td><td>Safe insert at rear</td></tr>  
+      <tr><td>removeFirst</td><td>dq.removeFirst()</td><td><span class="cx cx-o1">O(1)</span></td><td>Remove from front</td></tr>  
+      <tr><td>removeLast</td><td>dq.removeLast()</td><td><span class="cx cx-o1">O(1)</span></td><td>Remove from rear</td></tr>  
+      <tr><td>pollFirst</td><td>dq.pollFirst()</td><td><span class="cx cx-o1">O(1)</span></td><td>Safe remove from front</td></tr>  
+      <tr><td>pollLast</td><td>dq.pollLast()</td><td><span class="cx cx-o1">O(1)</span></td><td>Safe remove from rear</td></tr>  
+      <tr><td>peekFirst</td><td>dq.peekFirst()</td><td><span class="cx cx-o1">O(1)</span></td><td>View front</td></tr>  
+      <tr><td>peekLast</td><td>dq.peekLast()</td><td><span class="cx cx-o1">O(1)</span></td><td>View rear</td></tr>  
+      <tr><td>push</td><td>dq.push(e)</td><td><span class="cx cx-o1">O(1)</span></td><td>Push to front (stack)</td></tr>  
+      <tr><td>pop</td><td>dq.pop()</td><td><span class="cx cx-o1">O(1)</span></td><td>Pop from front (stack)</td></tr>  
+      <tr><td>peek</td><td>dq.peek()</td><td><span class="cx cx-o1">O(1)</span></td><td>View front (stack)</td></tr>  
+    </tbody>  
+  </table>  
+</div>  
+
+<!-- PriorityQueue -->  
+<div class="qref-group">  
+  <div class="qref-group-title">PriorityQueue</div>  
+  <table class="qref-table">  
+    <thead><tr><th>Method</th><th>Syntax</th><th>Complexity</th><th>Usage</th></tr></thead>  
+    <tbody>  
+      <tr><td>offer</td><td>pq.offer(e)</td><td><span class="cx cx-olog">O(log n)</span></td><td>Insert into heap</td></tr>  
+      <tr><td>poll</td><td>pq.poll()</td><td><span class="cx cx-olog">O(log n)</span></td><td>Remove top element</td></tr>  
+      <tr><td>peek</td><td>pq.peek()</td><td><span class="cx cx-o1">O(1)</span></td><td>View top element</td></tr>  
+      <tr><td>size</td><td>pq.size()</td><td><span class="cx cx-o1">O(1)</span></td><td>Get size</td></tr>  
+      <tr><td>clear</td><td>pq.clear()</td><td><span class="cx cx-on">O(n)</span></td><td>Delete all elements</td></tr>  
+      <tr><td>remove(obj)</td><td>pq.remove(obj)</td><td><span class="cx cx-on">O(n)</span></td><td>Remove specific element</td></tr>  
+    </tbody>  
+  </table>  
+</div>  
+
+<!-- Collections & Math -->  
+<div class="qref-group">  
+  <div class="qref-group-title">Collections &amp; Math Utilities</div>  
+  <table class="qref-table">  
+    <thead><tr><th>Method</th><th>Syntax</th><th>Complexity</th><th>Usage</th></tr></thead>  
+    <tbody>  
+      <tr><td>Collections.sort</td><td>Collections.sort(list)</td><td><span class="cx cx-olog">O(n log n)</span></td><td>Sort list</td></tr>  
+      <tr><td>Collections.reverse</td><td>Collections.reverse(list)</td><td><span class="cx cx-on">O(n)</span></td><td>Reverse list</td></tr>  
+      <tr><td>Collections.swap</td><td>Collections.swap(list, i, j)</td><td><span class="cx cx-o1">O(1)</span></td><td>Swap elements</td></tr>  
+      <tr><td>Collections.shuffle</td><td>Collections.shuffle(list)</td><td><span class="cx cx-on">O(n)</span></td><td>Random shuffle</td></tr>  
+      <tr><td>Collections.max/min</td><td>Collections.max(coll)</td><td><span class="cx cx-on">O(n)</span></td><td>Get max/min element</td></tr>  
+      <tr><td>Collections.binarySearch</td><td>Collections.binarySearch(l, k)</td><td><span class="cx cx-olog">O(log n)</span></td><td>Binary search</td></tr>  
+      <tr><td>Math.abs</td><td>Math.abs(val)</td><td><span class="cx cx-o1">O(1)</span></td><td>Absolute value</td></tr>  
+      <tr><td>Math.max / min</td><td>Math.max(a, b)</td><td><span class="cx cx-o1">O(1)</span></td><td>Get max/min value</td></tr>  
+      <tr><td>Math.pow</td><td>Math.pow(b, e)</td><td><span class="cx cx-o1">O(1)</span></td><td>Exponentiation</td></tr>  
+      <tr><td>Math.sqrt</td><td>Math.sqrt(val)</td><td><span class="cx cx-o1">O(1)</span></td><td>Square root</td></tr>  
+      <tr><td>Math.ceil / floor</td><td>Math.ceil(val)</td><td><span class="cx cx-o1">O(1)</span></td><td>Round up/down</td></tr>  
+      <tr><td>Math.log10 / log</td><td>Math.log10(val)</td><td><span class="cx cx-o1">O(1)</span></td><td>Base-10 / natural log</td></tr>  
+      <tr><td>Objects.equals</td><td>Objects.equals(a, b)</td><td><span class="cx cx-o1">O(1)</span></td><td>Null-safe equality</td></tr>  
+      <tr><td>Objects.hash</td><td>Objects.hash(vals)</td><td><span class="cx cx-on">O(n)</span></td><td>Composite hash</td></tr>  
+    </tbody>  
+  </table>  
+</div>
+
+  </main>  
+</div>  <script>  
+  // ── TOGGLE CARDS ──────────────────────────────────────  
+  function toggleCard(header) {  
+    const body = header.nextElementSibling;  
+    const toggle = header.querySelector('.topic-toggle');  
+    const isCollapsed = body.classList.contains('collapsed');  
+  
+    if (isCollapsed) {  
+      body.classList.remove('collapsed');  
+      toggle.textContent = '▼';  
+      toggle.style.transform = 'rotate(0deg)';  
+    } else {  
+      body.classList.add('collapsed');  
+      toggle.textContent = '▶';  
+      toggle.style.transform = 'rotate(0deg)';  
+    }  
+  }  
+  
+  // ── SIDEBAR SEARCH ────────────────────────────────────  
+  document.getElementById('sidebarSearch').addEventListener('input', function(e) {  
+    const query = e.target.value.toLowerCase();  
+    const links = document.querySelectorAll('.sidebar-link');  
+    links.forEach(link => {  
+      const text = link.textContent.toLowerCase();  
+      link.style.display = text.includes(query) ? 'flex' : 'none';  
+    });  
+    if (!query) links.forEach(l => l.style.display = 'flex');  
+  });  
+  
+  // ── ACTIVE LINK TRACKING ─────────────────────────────  
+  const observer = new IntersectionObserver((entries) => {  
+    entries.forEach(entry => {  
+      if (entry.isIntersecting) {  
+        const id = entry.target.id;  
+        document.querySelectorAll('.sidebar-link').forEach(link => {  
+          link.classList.remove('active');  
+          if (link.getAttribute('href') === '#' + id) {  
+            link.classList.add('active');  
+          }  
+        });  
+      }  
+    });  
+  }, { threshold: 0.1, rootMargin: '-20% 0px -60% 0px' });  
+  
+  document.querySelectorAll('[id]').forEach(el => observer.observe(el));  
+</script>  </body>  
+</html>  Above is the html code of a document
+
+do not change the content of the document
+
+make the document like A4 size page
+
+topic will start from new page
+
+and is a code block is breaking between the line of code of a block not the complete block for example
+Block of code for printing and array
+And the looping block is broken into two pages make it display on single page only irrespective of the code above and below it code above and below itgle page only irrespective of the code above and below itelow it
